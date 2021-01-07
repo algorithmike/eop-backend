@@ -1,0 +1,22 @@
+{
+  "name": "eop-backend",
+  "version": "1.0.0",
+  "description": "GraphQL Api for the Eop app.",
+  "main": "src/index.js",
+  "repository": "https://github.com/algorithmike/eop-backend.git",
+  "author": "Michael Fernandez <mikevfern@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "graphql-yoga": "^1.18.3"
+  }
+}
