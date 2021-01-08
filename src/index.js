@@ -2,10 +2,11 @@ import { GraphQLServer } from 'graphql-yoga'
 import { dummyUsers, dummyContent } from './dummyData'
 
 // Next:
-// Add content: [Content!]! to User.
-// add postedBy: User! to Content.
 // create Event type, query, resolver.
 // add event: Event! to Content.
+// add content: [Content!]! to Event.
+// add eventsAttended: [Event!]! to User.
+// add attendees: [User!]! to Event.
 const typeDefs = `
   type Query {
     users: [User!]!
