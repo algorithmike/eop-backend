@@ -47,7 +47,7 @@ export const dummyContent = [
         media: 'http://dummycontent2.png',
         mediaPreview: 'http://dummycontentpreview2.png',
         description: 'There\'s gotta be at least two dummy content.',
-        event: 'eventid456'
+        event: 'eventid123'
     },
     {
         id: 'contentID789',

@@ -2,7 +2,6 @@ import { GraphQLServer } from 'graphql-yoga'
 import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
 
 // Next:
-// add event: Event! to Content.
 // add content: [Content!]! to Event.
 // add eventsAttended: [Event!]! to User.
 // add attendees: [User!]! to Event.
@@ -47,6 +46,7 @@ const typeDefs = `
     state: String
     city: String
     landmark: String
+    content: [Content!]!
   }
 `
 
@@ -78,6 +78,13 @@ const resolvers = {
     event(parent){
       return dummyEvents.find(event => {
         return parent.event === event.id
+      })
+    }
+  },
+  Event: {
+    content(parent){
+      return dummyContent.filter(contentItem => {
+        return contentItem.event === parent.id
       })
     }
   }
