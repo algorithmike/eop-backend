@@ -2,8 +2,7 @@ import { GraphQLServer } from 'graphql-yoga'
 import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
 
 // Next:
-// add content: [Content!]! to Event.
-// add eventsAttended: [Event!]! to User.
+// add events: [Event!]! to User.
 // add attendees: [User!]! to Event.
 const typeDefs = `
   type Query {
@@ -21,6 +20,7 @@ const typeDefs = `
     description: String
     profilePic: String
     content: [Content!]!
+    events: [Event!]!
   }
 
   type Content {
@@ -63,29 +63,29 @@ const resolvers = {
     }
   },
   User: {
-    content(parent){
-      return dummyContent.filter(contentItem => {
-        return contentItem.postedBy === parent.id
+    content({id}){
+      return dummyContent.filter(contentItem => contentItem.postedBy === id)
+    },
+    events({id}){
+      let eventsFromContent =
+        dummyContent.filter(contentItem => contentItem.postedBy === id)
+
+      return dummyEvents.filter(event => {
+        return eventsFromContent.some(matcher => matcher.event === event.id)
       })
     }
   },
   Content: {
-    postedBy(parent){
-      return dummyUsers.find(user => {
-        return user.id === parent.postedBy
-      })
+    postedBy({postedBy}){
+      return dummyUsers.find(user => user.id === postedBy)
     },
-    event(parent){
-      return dummyEvents.find(event => {
-        return parent.event === event.id
-      })
+    event({event}){
+      return dummyEvents.find(event => event === event.id)
     }
   },
   Event: {
-    content(parent){
-      return dummyContent.filter(contentItem => {
-        return contentItem.event === parent.id
-      })
+    content({id}){
+      return dummyContent.filter(contentItem => contentItem.event === id)
     }
   }
 }
