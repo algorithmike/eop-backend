@@ -1,8 +1,7 @@
 import { GraphQLServer } from 'graphql-yoga'
-import { dummyUsers, dummyContent } from './dummyData'
+import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
 
 // Next:
-// create Event type, query, resolver.
 // add event: Event! to Content.
 // add content: [Content!]! to Event.
 // add eventsAttended: [Event!]! to User.
@@ -11,6 +10,7 @@ const typeDefs = `
   type Query {
     users: [User!]!
     content: [Content!]!
+    events: [Event!]!
   }
 
   type User {
@@ -28,12 +28,24 @@ const typeDefs = `
     id: ID!
     mediaType: String!
     title: String!
-    postedAt: Int!
+    postedAt: String!
     postedBy: User!
     postedFromEop: Boolean!
     media: String!
     mediaPreview: String!
     description: String!
+  }
+
+  type Event {
+    id: ID!
+    title: String!
+    startedAt: String!
+    coordinates: String!
+    description: String
+    country: String
+    state: String
+    city: String
+    landmark: String
   }
 `
 
@@ -44,6 +56,9 @@ const resolvers = {
     },
     content(){
       return dummyContent
+    },
+    events(){
+      return dummyEvents
     }
   },
   User: {

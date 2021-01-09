@@ -29,7 +29,7 @@ export const dummyContent = [
         id: 'contentID123',
         mediaType: 'IMAGE',
         title: 'The First Dummy Image',
-        postedAt: 20201225,
+        postedAt: '20201225',
         postedBy: 'abcd1234',
         postedFromEop: false,
         media: 'http://dummycontent1.png',
@@ -40,7 +40,7 @@ export const dummyContent = [
         id: 'contentID456',
         mediaType: 'IMAGE',
         title: 'The Second Dummy Image',
-        postedAt: 11112020,
+        postedAt: '11112020',
         postedBy: 'efgh5678',
         postedFromEop: false,
         media: 'http://dummycontent2.png',
@@ -51,7 +51,7 @@ export const dummyContent = [
         id: 'contentID789',
         mediaType: 'IMAGE',
         title: 'The Third Dummy Image',
-        postedAt: 20210108,
+        postedAt: '20210108',
         postedBy: 'abcd1234',
         postedFromEop: false,
         media: 'http://dummycontent3.png',
@@ -59,3 +59,30 @@ export const dummyContent = [
         description: 'Three is a good number.'
     }
 ];
+
+export const dummyEvents = [
+    {
+        id: 'eventid123',
+        title: 'Dummy Festival',
+        startedAt: '20201111',
+        coordinates: '1.0, 2.0',
+        description: 'This is the best!',
+        landmark: 'Bee Boo Building'
+    },
+    {
+        id: 'eventid456',
+        title: 'The Gathering of Dummy',
+        startedAt: '20203214',
+        coordinates: '3.0, 4.0',
+        description: 'This is the second best!',
+        landmark: 'La La Land'
+    },
+    {
+        id: 'eventid123',
+        title: 'Dummy in the Park',
+        startedAt: '20204444',
+        coordinates: '6.0, 7.0',
+        description: 'This is the third best!',
+        landmark: 'What Now Park'
+    }
+]
