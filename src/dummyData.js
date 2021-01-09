@@ -34,7 +34,8 @@ export const dummyContent = [
         postedFromEop: false,
         media: 'http://dummycontent1.png',
         mediaPreview: 'http://dummycontentpreview1.png',
-        description: 'This is some dummy content. Gotta figure out where to store those images.'
+        description: 'This is some dummy content. Gotta figure out where to store those images.',
+        event: 'eventid123'
     },
     {
         id: 'contentID456',
@@ -45,7 +46,8 @@ export const dummyContent = [
         postedFromEop: false,
         media: 'http://dummycontent2.png',
         mediaPreview: 'http://dummycontentpreview2.png',
-        description: 'There\'s gotta be at least two dummy content.'
+        description: 'There\'s gotta be at least two dummy content.',
+        event: 'eventid456'
     },
     {
         id: 'contentID789',
@@ -56,7 +58,8 @@ export const dummyContent = [
         postedFromEop: false,
         media: 'http://dummycontent3.png',
         mediaPreview: 'http://dummycontentpreview3.png',
-        description: 'Three is a good number.'
+        description: 'Three is a good number.',
+        event: 'eventid789'
     }
 ];
 
@@ -78,7 +81,7 @@ export const dummyEvents = [
         landmark: 'La La Land'
     },
     {
-        id: 'eventid123',
+        id: 'eventid789',
         title: 'Dummy in the Park',
         startedAt: '20204444',
         coordinates: '6.0, 7.0',

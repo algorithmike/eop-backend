@@ -34,6 +34,7 @@ const typeDefs = `
     media: String!
     mediaPreview: String!
     description: String!
+    event: Event!
   }
 
   type Event {
@@ -72,6 +73,11 @@ const resolvers = {
     postedBy(parent){
       return dummyUsers.find(user => {
         return user.id === parent.postedBy
+      })
+    },
+    event(parent){
+      return dummyEvents.find(event => {
+        return parent.event === event.id
       })
     }
   }
