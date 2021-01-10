@@ -1,4 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
+import dayjs from 'dayjs'
 import gql from 'graphql-tag'
 import { nanoid } from 'nanoid'
 import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
@@ -10,6 +11,8 @@ import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
 // editUser Mutation
 // editContent Mutation
 // editEvent Mutation; Only events created from own Content creation.
+// deleteUser Mutation
+// deleteContent Mutation
 const typeDefs = gql`
   type Query {
     users(text: String): [User!]!
@@ -18,21 +21,16 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createContent(
-      mediaType: String!
-      title: String!
-      description: String!
-      postedFromEop: Boolean!
-      postedBy: String!
-      _event_id: ID
-      _event_title: String
-      _event_coordinates: String
-      _event_description: String
-      _event_country: String
-      _event_state: String
-      _event_city: String
-      _event_landmark: String
-    ): Content!
+    createContent(data: CreateContentInput): Content!
+  }
+
+  input CreateContentInput {
+    mediaType: String!
+    title: String!
+    description: String!
+    postedFromEop: Boolean!
+    postedBy: String!
+    event: String
   }
 
   type User {
@@ -51,7 +49,7 @@ const typeDefs = gql`
     id: ID!
     mediaType: String!
     title: String!
-    postedAt: String!
+    postedAt: Float!
     postedFromEop: Boolean!
     media: String!
     mediaPreview: String!
@@ -114,10 +112,11 @@ const resolvers = {
     }
   },
   Mutation: {
-    createContent(_, args){
-      const { mediaType, title, description, postedFromEop, postedBy, _event_id } = args
-      const newContent = { mediaType, title, description, postedFromEop, postedBy } 
-      
+    createContent(_, {data}){
+      const { mediaType, title, description, postedFromEop, postedBy, event } = data
+      const postedAt = dayjs().valueOf()
+      const newContent = { mediaType, title, description, postedFromEop, postedBy, postedAt, event} 
+
       if(!newContent.event){
         newContent.event = nanoid()
 
