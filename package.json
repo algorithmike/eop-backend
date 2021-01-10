@@ -14,9 +14,11 @@
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "babel-plugin-graphql-tag": "^3.1.0",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "graphql-tag": "^2.11.0",
     "graphql-yoga": "^1.18.3"
   }
 }

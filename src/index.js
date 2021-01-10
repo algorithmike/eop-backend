@@ -2,7 +2,6 @@ import { GraphQLServer } from 'graphql-yoga'
 import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
 
 // Next:
-// add events: [Event!]! to User.
 // add attendees: [User!]! to Event.
 const typeDefs = `
   type Query {
@@ -28,11 +27,11 @@ const typeDefs = `
     mediaType: String!
     title: String!
     postedAt: String!
-    postedBy: User!
     postedFromEop: Boolean!
     media: String!
     mediaPreview: String!
     description: String!
+    postedBy: User!
     event: Event!
   }
 
@@ -47,6 +46,7 @@ const typeDefs = `
     city: String
     landmark: String
     content: [Content!]!
+    attendees: [User!]!
   }
 `
 
@@ -67,11 +67,11 @@ const resolvers = {
       return dummyContent.filter(contentItem => contentItem.postedBy === id)
     },
     events({id}){
-      let eventsFromContent =
+      let thisUserContent =
         dummyContent.filter(contentItem => contentItem.postedBy === id)
 
       return dummyEvents.filter(event => {
-        return eventsFromContent.some(matcher => matcher.event === event.id)
+        return thisUserContent.some(content => content.event === event.id)
       })
     }
   },
@@ -80,12 +80,22 @@ const resolvers = {
       return dummyUsers.find(user => user.id === postedBy)
     },
     event({event}){
-      return dummyEvents.find(event => event === event.id)
+      return dummyEvents.find(e => e.id === event)
     }
   },
   Event: {
     content({id}){
       return dummyContent.filter(contentItem => contentItem.event === id)
+    },
+    attendees({id}){
+      let contentFromThisEvent = dummyContent.filter(contentItem => {
+        return id === contentItem.event
+      })
+
+      return dummyUsers.filter(user => {
+        return contentFromThisEvent.some(content => content.postedBy === user.id)
+      })
+      
     }
   }
 }
