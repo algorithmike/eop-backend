@@ -21,16 +21,28 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createContent(data: CreateContentInput): Content!
+    createContent(data: CreateContentInput!, newEventData: CreateContentInput_event): Content!
   }
 
   input CreateContentInput {
     mediaType: String!
+    media: String!
     title: String!
     description: String!
     postedFromEop: Boolean!
     postedBy: String!
+    coordinates: String!
     event: String
+  }
+
+  input CreateContentInput_event {
+    title: String
+    startedAt: Float
+    description: String
+    country: String
+    state: String
+    city: String
+    landmark: String
   }
 
   type User {
@@ -61,7 +73,7 @@ const typeDefs = gql`
   type Event {
     id: ID!
     title: String!
-    startedAt: String!
+    startedAt: Float!
     coordinates: String!
     description: String
     country: String
@@ -112,17 +124,37 @@ const resolvers = {
     }
   },
   Mutation: {
-    createContent(_, {data}){
-      const { mediaType, title, description, postedFromEop, postedBy, event } = data
+    createContent(_, {data, newEventData}){
+      const { mediaType, title, description, postedFromEop, postedBy, coordinates, event } = data
       const postedAt = dayjs().valueOf()
-      const newContent = { mediaType, title, description, postedFromEop, postedBy, postedAt, event} 
+      const newContent = { mediaType, title, description, postedFromEop, postedBy, postedAt, event } 
 
       if(!newContent.event){
-        newContent.event = nanoid()
+        const newEvent = (newEventData) ?
+          {
+            title: (newEventData.title) ? newEventData.title : 'Unnamed Event',
+            startedAt: newEventData.startedAt ? newEventData.startedAt : postedAt,
+            description: newEventData.description ? newEventData.description : '',
+            country: newEventData.country ? newEventData.country : '',
+            state: newEventData.state ? newEventData.state : '',
+            city: newEventData.city ? newEventData.city : '',
+            coordinates,
+            id: nanoid()
+          } : {
+            title: 'Unnamed Event',
+            startedAt: '',
+            description: '',
+            country: '',
+            state: '',
+            city: '',
+            coordinates,
+            id: nanoid()
+          }
 
-        // Create new event here
-        
+        dummyEvents.push(newEvent)
+        newContent.event = newEvent.id
       }
+
       dummyContent.push(newContent)
       return newContent
     }
