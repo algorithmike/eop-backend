@@ -2,11 +2,10 @@ import { GraphQLServer } from 'graphql-yoga'
 import dayjs from 'dayjs'
 import gql from 'graphql-tag'
 import { nanoid } from 'nanoid'
-import { dummyUsers, dummyContent, dummyEvents } from './dummyData'
+import db from './db'
 
 
 // Next:
-// add event creation to the createContent Mutation
 // createUser Mutation
 // editUser Mutation
 // editContent Mutation
@@ -87,9 +86,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    users(_,{text}){
+    users(_, {text}, {db}){
       if(text){
-        return dummyUsers.filter(user => {
+        return db.userData.filter(user => {
           return (
             user.username.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
             user.email.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
@@ -97,22 +96,22 @@ const resolvers = {
           )
         })
       }
-      return dummyUsers
+      return db.userData
     },
-    content(_, {text}){
+    content(_, {text}, {db}){
       if(text){
-        return dummyContent.filter(item => {
+        return db.contentData.filter(item => {
           return (
             item.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
             item.description.toLocaleLowerCase().includes(text.toLocaleLowerCase())
           )
         })
       }
-      return dummyContent
+      return db.contentData
     },
-    events(_, {text}){
+    events(_, {text}, {db}){
       if(text){
-        return dummyEvents.filter(event => {
+        return db.eventData.filter(event => {
           return (
             event.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
             event.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
@@ -120,11 +119,11 @@ const resolvers = {
           )
         })
       }
-      return dummyEvents
+      return db.eventData
     }
   },
   Mutation: {
-    createContent(_, {data, newEventData}){
+    createContent(_, {data, newEventData}, {db}){
       const { mediaType, title, description, postedFromEop, postedBy, coordinates, event } = data
       const postedAt = dayjs().valueOf()
       const newContent = { mediaType, title, description, postedFromEop, postedBy, postedAt, event } 
@@ -151,45 +150,45 @@ const resolvers = {
             id: nanoid()
           }
 
-        dummyEvents.push(newEvent)
+        db.eventData.push(newEvent)
         newContent.event = newEvent.id
       }
 
-      dummyContent.push(newContent)
+      db.contentData.push(newContent)
       return newContent
     }
   },
   User: {
-    content({id}){
-      return dummyContent.filter(contentItem => contentItem.postedBy === id)
+    content({id}, __, {db}){
+      return db.contentData.filter(contentItem => contentItem.postedBy === id)
     },
-    events({id}){
+    events({id}, __, {db}){
       let thisUserContent =
-        dummyContent.filter(contentItem => contentItem.postedBy === id)
+        db.contentData.filter(contentItem => contentItem.postedBy === id)
 
-      return dummyEvents.filter(event => {
+      return db.eventData.filter(event => {
         return thisUserContent.some(content => content.event === event.id)
       })
     }
   },
   Content: {
-    postedBy({postedBy}){
-      return dummyUsers.find(user => user.id === postedBy)
+    postedBy({postedBy}, __, {db}){
+      return db.userData.find(user => user.id === postedBy)
     },
-    event({event}){
-      return dummyEvents.find(e => e.id === event)
+    event({event}, __ {db}){
+      return db.eventData.find(e => e.id === event)
     }
   },
   Event: {
-    content({id}){
-      return dummyContent.filter(contentItem => contentItem.event === id)
+    content({id}, __, {db}){
+      return db.contentData.filter(contentItem => contentItem.event === id)
     },
-    attendees({id}){
-      let contentFromThisEvent = dummyContent.filter(contentItem => {
+    attendees({id}, __, {db}){
+      let contentFromThisEvent = db.contentData.filter(contentItem => {
         return id === contentItem.event
       })
 
-      return dummyUsers.filter(user => {
+      return db.userData.filter(user => {
         return contentFromThisEvent.some(content => content.postedBy === user.id)
       })
       
@@ -197,5 +196,11 @@ const resolvers = {
   }
 }
 
-const server = new GraphQLServer({ typeDefs, resolvers })
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers,
+  context: {
+    db
+  }
+})
 server.start(() => console.log('Server is running on localhost:4000'))

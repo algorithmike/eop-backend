@@ -1,4 +1,4 @@
-export const dummyUsers = [
+const userData = [
     {
         id: 'abcd1234',
         username: 'algorithmike',
@@ -24,7 +24,7 @@ export const dummyUsers = [
     }
 ];
 
-export const dummyContent = [
+const contentData = [
     {
         id: 'contentID123',
         mediaType: 'IMAGE',
@@ -63,11 +63,11 @@ export const dummyContent = [
     }
 ];
 
-export const dummyEvents = [
+const eventData = [
     {
         id: 'eventid123',
         title: 'Dummy Festival',
-        startedAt: '20201111',
+        startedAt: 20201111,
         coordinates: '1.0, 2.0',
         description: 'This is the best!',
         landmark: 'Bee Boo Building'
@@ -75,7 +75,7 @@ export const dummyEvents = [
     {
         id: 'eventid456',
         title: 'The Gathering of Dummy',
-        startedAt: '20203214',
+        startedAt: 20203214,
         coordinates: '3.0, 4.0',
         description: 'This is the second best!',
         landmark: 'La La Land'
@@ -83,9 +83,17 @@ export const dummyEvents = [
     {
         id: 'eventid789',
         title: 'Dummy in the Park',
-        startedAt: '20204444',
+        startedAt: 20204444,
         coordinates: '6.0, 7.0',
         description: 'This is the third best!',
         landmark: 'What Now Park'
     }
 ]
+
+const db = {
+    userData,
+    contentData,
+    eventData
+}
+
+export default db
