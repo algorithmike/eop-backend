@@ -12,77 +12,6 @@ import db from './db'
 // editEvent Mutation; Only events created from own Content creation.
 // deleteUser Mutation
 // deleteContent Mutation
-const typeDefs = gql`
-  type Query {
-    users(text: String): [User!]!
-    content(text: String): [Content!]!
-    events(text: String): [Event!]!
-  }
-
-  type Mutation {
-    createContent(data: CreateContentInput!, newEventData: CreateContentInput_event): Content!
-  }
-
-  input CreateContentInput {
-    mediaType: String!
-    media: String!
-    title: String!
-    description: String!
-    postedFromEop: Boolean!
-    postedBy: String!
-    coordinates: String!
-    event: String
-  }
-
-  input CreateContentInput_event {
-    title: String
-    startedAt: Float
-    description: String
-    country: String
-    state: String
-    city: String
-    landmark: String
-  }
-
-  type User {
-    id: ID!
-    username: String!
-    email: String!
-    password: String!
-    realname: String
-    description: String
-    profilePic: String
-    content: [Content!]!
-    events: [Event!]!
-  }
-
-  type Content {
-    id: ID!
-    mediaType: String!
-    title: String!
-    postedAt: Float!
-    postedFromEop: Boolean!
-    media: String!
-    mediaPreview: String!
-    description: String!
-    postedBy: User!
-    event: Event!
-  }
-
-  type Event {
-    id: ID!
-    title: String!
-    startedAt: Float!
-    coordinates: String!
-    description: String
-    country: String
-    state: String
-    city: String
-    landmark: String
-    content: [Content!]!
-    attendees: [User!]!
-  }
-`
 
 const resolvers = {
   Query: {
@@ -197,7 +126,7 @@ const resolvers = {
 }
 
 const server = new GraphQLServer({
-  typeDefs,
+  typeDefs: './src/schema.graphql',
   resolvers,
   context: {
     db
