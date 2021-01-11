@@ -1,6 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
 import dayjs from 'dayjs'
-import gql from 'graphql-tag'
 import { nanoid } from 'nanoid'
 import db from './db'
 
@@ -104,7 +103,7 @@ const resolvers = {
     postedBy({postedBy}, __, {db}){
       return db.userData.find(user => user.id === postedBy)
     },
-    event({event}, __ {db}){
+    event({event}, __, {db}){
       return db.eventData.find(e => e.id === event)
     }
   },
