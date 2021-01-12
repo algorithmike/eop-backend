@@ -1,10 +1,11 @@
-import { GraphQLServer } from 'graphql-yoga'
+import { GraphQLServer, PubSub } from 'graphql-yoga'
 import db from './db'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
 import User from './resolvers/User'
 import Content from './resolvers/Content'
 import Event from './resolvers/Event'
+import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 
 // Next:
 // createUser Mutation
@@ -13,6 +14,9 @@ import Event from './resolvers/Event'
 // editEvent Mutation; Only events created from own Content creation.
 // deleteUser Mutation
 // deleteContent Mutation
+
+const pubsub = new PubSub()
+
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers: {
@@ -20,10 +24,16 @@ const server = new GraphQLServer({
     Mutation,
     User,
     Content,
-    Event
+    Event,
+    Subscription
   },
   context: {
-    db
+    db,
+    pubsub,
+    channels: {
+      ALL_CONTENT,
+      ALL_EVENTS
+    }
   }
 })
 server.start(() => console.log('Server is running on localhost:4000'))

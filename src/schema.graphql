@@ -5,7 +5,25 @@ type Query {
 }
 
 type Mutation {
-    createContent(data: CreateContentInput!, newEventData: CreateContentInput_event): Content!
+    createContent(
+        data: CreateContentInput!, 
+        newEventData: CreateContentInput_event
+        ): Content!
+}
+
+type Subscription {
+    content: ContentPubSub
+    events: EventPubSub
+}
+
+type ContentPubSub {
+    mutation: MUTATION_TYPE!
+    data: Content!
+}
+
+type EventPubSub {
+    mutation: MUTATION_TYPE!
+    data: Event!
 }
 
 input CreateContentInput {
@@ -66,4 +84,10 @@ type Event {
     landmark: String
     content: [Content!]!
     attendees: [User!]!
+}
+
+enum MUTATION_TYPE {
+    CREATED
+    UPDATED
+    DELETED
 }
