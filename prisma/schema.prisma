@@ -8,37 +8,43 @@ generator client {
 }
 
 model User {
-  id              String      @default(uuid()) @id
-  email           String      @unique
-  username        String      @unique
+  id              String     @default(uuid()) @id
+  email           String     @unique
+  username        String     @unique
   password        String
   realname        String?
+  description     String?
   profilePicUrl   String?
+  content         Content[]
+  events          Event[]    @relation(references: [id])
 }
 
-// type Content {
-//     id: ID!
-//     mediaType: String!
-//     title: String!
-//     postedAt: Float!
-//     postedFromEop: Boolean!
-//     media: String!
-//     mediaPreview: String!
-//     description: String!
-//     postedBy: User!
-//     event: Event!
-// }
+model Content {
+  id              String     @default(uuid())  @id
+  mediaType       String
+  title           String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  postedFromEop   Boolean    @default(false)
+  mediaUrl        String
+  mediaPreviewUrl String
+  description     String?
+  author          User       @relation(fields: [authorId], references: [id])
+  authorId        String
+  event           Event      @relation(fields: [eventId], references: [id])
+  eventId         String
+}
 
-// type Event {
-//     id: ID!
-//     title: String!
-//     startedAt: Float!
-//     coordinates: String!
-//     description: String
-//     country: String
-//     state: String
-//     city: String
-//     landmark: String
-//     content: [Content!]!
-//     attendees: [User!]!
-// }
+model Event {
+  id            String    @default(uuid())    @id
+  title         String
+  startedAt     DateTime
+  coordinates   String
+  description   String?
+  country       String?
+  state         String?
+  city          String?
+  landmark      String?
+  content       Content[]
+  attendees     User[]    @relation(references: [id])
+}

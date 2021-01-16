@@ -32,7 +32,7 @@ input CreateContentInput {
     title: String!
     description: String!
     postedFromEop: Boolean!
-    postedBy: String!
+    author: String!
     coordinates: String!
     event: String
 }
@@ -63,12 +63,12 @@ type Content {
     id: ID!
     mediaType: String!
     title: String!
-    postedAt: Float!
+    createdAt: Float!
     postedFromEop: Boolean!
-    media: String!
-    mediaPreview: String!
-    description: String!
-    postedBy: User!
+    mediaUrl: String!
+    mediaPreviewUrl: String!
+    description: String
+    author: User!
     event: Event!
 }
 

@@ -8,7 +8,7 @@ const Event = {
         })
 
         return db.userData.filter(user => {
-        return contentFromThisEvent.some(content => content.postedBy === user.id)
+        return contentFromThisEvent.some(content => content.author === user.id)
         })
         
     }

@@ -1,6 +1,6 @@
 const Event = {
-    postedBy({postedBy}, __, {db}){
-        return db.userData.find(user => user.id === postedBy)
+    author({author}, __, {db}){
+        return db.userData.find(user => user.id === author)
     },
     event({event}, __, {db}){
         return db.eventData.find(e => e.id === event)

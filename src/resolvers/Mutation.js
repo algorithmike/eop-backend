@@ -3,15 +3,15 @@ import dayjs from 'dayjs'
 
 const Mutation = {
     createContent(_, {data, newEventData}, {db, pubsub, channels}){
-        const { mediaType, title, description, postedFromEop, postedBy, coordinates, event } = data
-        const postedAt = dayjs().valueOf()
-        const newContent = { mediaType, title, description, postedFromEop, postedBy, postedAt, event } 
+        const { mediaType, title, description, postedFromEop, author, coordinates, event } = data
+        const createdAt = dayjs().valueOf()
+        const newContent = { mediaType, title, description, postedFromEop, author, createdAt, event } 
 
         if(!newContent.event){
         const newEvent = (newEventData) ?
             {
                 title: (newEventData.title) ? newEventData.title : 'Unnamed Event',
-                startedAt: newEventData.startedAt ? newEventData.startedAt : postedAt,
+                startedAt: newEventData.startedAt ? newEventData.startedAt : createdAt,
                 description: newEventData.description ? newEventData.description : '',
                 country: newEventData.country ? newEventData.country : '',
                 state: newEventData.state ? newEventData.state : '',
@@ -20,7 +20,7 @@ const Mutation = {
                 id: nanoid()
             } : {
                 title: 'Unnamed Event',
-                startedAt: '',
+                startedAt: 0,
                 description: '',
                 country: '',
                 state: '',

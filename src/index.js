@@ -1,4 +1,5 @@
 import { GraphQLServer, PubSub } from 'graphql-yoga'
+import { PrismaClient } from '@prisma/client'
 import db from './db'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
@@ -16,6 +17,7 @@ import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 // deleteContent Mutation
 
 const pubsub = new PubSub()
+const prisma = new PrismaClient()
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
@@ -30,6 +32,7 @@ const server = new GraphQLServer({
   context: {
     db,
     pubsub,
+    prisma,
     channels: {
       ALL_CONTENT,
       ALL_EVENTS
