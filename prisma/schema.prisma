@@ -1,3 +1,6 @@
+// Migrations are currently in preview mode.
+// Use the following command for prototyping only:
+// npx prisma db push --preview-feature       
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
