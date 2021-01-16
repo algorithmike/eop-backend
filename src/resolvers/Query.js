@@ -1,5 +1,9 @@
+// Delete import
+// import { Prisma, PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient()
+
 const Query = {
-    users(_, {text}, {db, prisma}){
+    users(_, {text}, {db, prisma}, info){
         // if(text){
         // return db.userData.filter(user => {
         //     return (
