@@ -1,15 +1,16 @@
 const Query = {
-    users(_, {text}, {db}){
-        if(text){
-        return db.userData.filter(user => {
-            return (
-            user.username.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-            user.email.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-            user.realname.toLocaleLowerCase().includes(text.toLocaleLowerCase())
-            )
-        })
-        }
-        return db.userData
+    users(_, {text}, {db, prisma}){
+        // if(text){
+        // return db.userData.filter(user => {
+        //     return (
+        //     user.username.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+        //     user.email.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+        //     user.realname.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+        //     )
+        // })
+        // }
+        // return db.userData
+        return prisma.user.findMany()
     },
     content(_, {text}, {db}){
         if(text){

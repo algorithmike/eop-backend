@@ -5,6 +5,7 @@ type Query {
 }
 
 type Mutation {
+    createUser(data: CreateUserInput!): User!
     createContent(
         data: CreateContentInput!, 
         newEventData: CreateContentInput_event
@@ -24,6 +25,15 @@ type ContentPubSub {
 type EventPubSub {
     mutation: MUTATION_TYPE!
     data: Event!
+}
+
+input CreateUserInput {
+    email: String!
+    username: String!
+    password: String!
+    realname: String
+    description: String
+    profilePicUrl: String
 }
 
 input CreateContentInput {
@@ -54,7 +64,7 @@ type User {
     password: String!
     realname: String
     description: String
-    profilePic: String
+    profilePicUrl: String
     content: [Content!]!
     events: [Event!]!
 }

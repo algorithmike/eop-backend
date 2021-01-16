@@ -2,6 +2,11 @@ import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
 
 const Mutation = {
+    createUser(_, {data}, {prisma}){
+        return prisma.user.create({
+            data
+        })
+    },
     createContent(_, {data, newEventData}, {db, pubsub, channels}){
         const { mediaType, title, description, postedFromEop, author, coordinates, event } = data
         const createdAt = dayjs().valueOf()
