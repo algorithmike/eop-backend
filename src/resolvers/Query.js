@@ -10,18 +10,40 @@ const Query = {
         // })
         // }
         // return db.userData
+        if(text){
+            return prisma.user.findMany({
+                where: {
+                    OR: [{
+                            username: { 
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        },{
+                            email: {
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        },{
+                            realname: {
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        }]
+                }
+            })
+        }
         return prisma.user.findMany()
     },
-    content(_, {text}, {db}){
-        if(text){
-        return db.contentData.filter(item => {
-            return (
-            item.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-            item.description.toLocaleLowerCase().includes(text.toLocaleLowerCase())
-            )
-        })
-        }
-        return db.contentData
+    content(_, {text}, {db, prisma}){
+        // if(text){
+        // return db.contentData.filter(item => {
+        //     return (
+        //     item.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
+        //     item.description.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+        //     )
+        // })
+        // }
+        // return db.contentData
     },
     events(_, {text}, {db}){
         if(text){
