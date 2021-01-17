@@ -11,7 +11,9 @@ const User = {
             where: {
                 attendees: {
                     every: {
-                        id
+                        id: {
+                            equals: id
+                        }
                     }
                 }
             }

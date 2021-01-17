@@ -1,16 +1,27 @@
-const Event = {
-    content({id}, __, {db}){
-        return db.contentData.filter(contentItem => contentItem.event === id)
-    },
-    attendees({id}, __, {db}){
-        let contentFromThisEvent = db.contentData.filter(contentItem => {
-        return id === contentItem.event
-        })
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
-        return db.userData.filter(user => {
-        return contentFromThisEvent.some(content => content.author === user.id)
+const Event = {
+    content({id}, __, {prisma}){
+        return prisma.content.findMany({
+            where: {
+                eventId: id
+            }
         })
-        
+    },
+    attendees({id}, __, {prisma}){
+        // This is completely wrong
+        return prisma.user.findMany({
+            where: {
+                events: {
+                    every: {
+                        id: {
+                            equals: id
+                        }
+                    }
+                }
+            }
+        })
     }
 }
 

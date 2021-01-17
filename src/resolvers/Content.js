@@ -1,16 +1,15 @@
 const Content = {
-    author({author}, __, {prisma}){
+    author({authorId}, __, {prisma}){
         return prisma.user.findFirst({
             where: {
-                id: author
+                id: authorId
             }
         })
     },
-    event({event}, __, {prisma}){
-        // return db.eventData.find(e => e.id === event)
+    event({eventId}, __, {prisma}){
         return prisma.event.findFirst({
             where: {
-                id: event
+                id: eventId
             }
         })
     }
