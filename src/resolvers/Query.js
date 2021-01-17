@@ -1,10 +1,5 @@
-// Delete import
-// import { Prisma, PrismaClient } from '@prisma/client'
-// const prisma = new PrismaClient()
-
 const Query = {
-    users(_, {text}, {prisma}, info){
-
+    users(_, {text}, {prisma}){
         if(text){
             return prisma.user.findMany({
                 where: {
@@ -29,28 +24,50 @@ const Query = {
         }
         return prisma.user.findMany()
     },
-    content(_, {text}, {db, prisma}){
-        // if(text){
-        // return db.contentData.filter(item => {
-        //     return (
-        //     item.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        //     item.description.toLocaleLowerCase().includes(text.toLocaleLowerCase())
-        //     )
-        // })
-        // }
-        // return db.contentData
-    },
-    events(_, {text}, {db}){
+    content(_, {text}, {prisma}){
         if(text){
-        return db.eventData.filter(event => {
-            return (
-            event.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-            event.description.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-            event.landmark.toLocaleLowerCase().includes(text.toLocaleLowerCase())
-            )
-        })
+            return prisma.content.findMany({
+                where: {
+                    OR: [{
+                        title: {
+                            contains: text,
+                            mode: "insensitive"
+                        }
+                    },{
+                        description: {
+                            contains: text,
+                            mode: "insensitive"
+                        }
+                    }]
+                }
+            })
         }
-        return db.eventData
+        return prisma.content.findMany()
+    },
+    events(_, {text}, {prisma}){
+        if(text){
+            return prisma.event.findMany({
+                where: {
+                    OR: [{
+                            title: {
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        },{
+                            description: {
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        },{
+                            landmark: {
+                                contains: text,
+                                mode: "insensitive"
+                            }
+                        }]
+                }
+            })
+        }
+        return prisma.event.findMany()
     }
 }
 
