@@ -10,7 +10,9 @@ const User = {
         return prisma.event.findMany({
             where: {
                 attendees: {
-                    id
+                    every: {
+                        id
+                    }
                 }
             }
         })

@@ -39,6 +39,7 @@ input CreateUserInput {
 input CreateContentInput {
     mediaType: String!
     mediaUrl: String!
+    mediaPreviewUrl: String!
     title: String!
     authorId: String!
     coordinates: String!
