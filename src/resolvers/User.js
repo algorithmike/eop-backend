@@ -1,13 +1,18 @@
 const User = {
-    content({id}, __, {db}){
-        return db.contentData.filter(contentItem => contentItem.author === id)
+    content({id}, __, {prisma}){
+        return prisma.content.findMany({
+            where: {
+                authorId: id
+            }
+        })
     },
-    events({id}, __, {db}){
-        let thisUserContent =
-        db.contentData.filter(contentItem => contentItem.author === id)
-
-        return db.eventData.filter(event => {
-        return thisUserContent.some(content => content.event === event.id)
+    events({id}, __, {prisma}){
+        return prisma.event.findMany({
+            where: {
+                attendees: {
+                    id
+                }
+            }
         })
     }
 }

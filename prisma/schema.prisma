@@ -41,7 +41,6 @@ model Content {
 model Event {
   id            String    @default(uuid())    @id
   title         String
-  startedAt     DateTime  @default(now())
   coordinates   String
   description   String?
   country       String?

@@ -1,10 +1,19 @@
-const Event = {
-    author({author}, __, {db}){
-        return db.userData.find(user => user.id === author)
+const Content = {
+    author({author}, __, {prisma}){
+        return prisma.user.findMany({
+            where: {
+                id: author
+            }
+        })
     },
-    event({event}, __, {db}){
-        return db.eventData.find(e => e.id === event)
+    event({event}, __, {prisma}){
+        // return db.eventData.find(e => e.id === event)
+        return prisma.event.findMany({
+            where: {
+
+            }
+        })
     }
 }
 
-export default Event
+export default Content

@@ -38,18 +38,17 @@ input CreateUserInput {
 
 input CreateContentInput {
     mediaType: String!
-    media: String!
+    mediaUrl: String!
     title: String!
-    description: String!
-    postedFromEop: Boolean!
-    author: String!
+    authorId: String!
     coordinates: String!
-    event: String
+    description: String
+    postedFromEop: Boolean
+    eventId: String
 }
 
 input CreateContentInput_event {
     title: String
-    startedAt: Float
     description: String
     country: String
     state: String
@@ -79,13 +78,14 @@ type Content {
     mediaPreviewUrl: String!
     description: String
     author: User!
+    authorId: String!
     event: Event!
+    eventId: String!
 }
 
 type Event {
     id: ID!
     title: String!
-    startedAt: Float!
     coordinates: String!
     description: String
     country: String
