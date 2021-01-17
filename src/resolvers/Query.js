@@ -3,17 +3,8 @@
 // const prisma = new PrismaClient()
 
 const Query = {
-    users(_, {text}, {db, prisma}, info){
-        // if(text){
-        // return db.userData.filter(user => {
-        //     return (
-        //     user.username.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        //     user.email.toLocaleLowerCase().includes(text.toLocaleLowerCase()) ||
-        //     user.realname.toLocaleLowerCase().includes(text.toLocaleLowerCase())
-        //     )
-        // })
-        // }
-        // return db.userData
+    users(_, {text}, {prisma}, info){
+
         if(text){
             return prisma.user.findMany({
                 where: {

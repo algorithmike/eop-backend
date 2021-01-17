@@ -47,7 +47,8 @@ const Mutation = {
             throw new Error('Location has not been provided.')
         }
 
-        console.log('eventId: ', eventId)
+        // Create content and connects it to existing event or creates new one.
+        // If new event is created, connects that event to user
         const createdContent = await prisma.content.create({
             data: {
                 mediaType,

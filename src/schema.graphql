@@ -79,7 +79,6 @@ type Content {
     mediaPreviewUrl: String!
     description: String
     author: User!
-    authorId: String!
     event: Event!
     eventId: String!
 }
