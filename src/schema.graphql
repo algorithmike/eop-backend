@@ -10,6 +10,7 @@ type Mutation {
         data: CreateContentInput!, 
         newEventData: CreateContentInput_event
         ): Content!
+    createEvent (data: CreateEventInput!): Event!
 }
 
 type Subscription {
@@ -50,6 +51,17 @@ input CreateContentInput {
 
 input CreateContentInput_event {
     title: String
+    description: String
+    country: String
+    state: String
+    city: String
+    landmark: String
+}
+
+input CreateEventInput {
+    title: String!
+    coordinates: String!
+    organizerId: String!
     description: String
     country: String
     state: String

@@ -1,3 +1,6 @@
+import {PrismaClient} from "@prisma/client"
+const prisma = new PrismaClient()
+
 const Mutation = {
     createUser: async (_, {data}, {prisma} ) => {
         const existingUsers = await prisma.user.count({
@@ -16,7 +19,12 @@ const Mutation = {
         return await prisma.user.create({data})
     },
     createContent: async (_, {data, newEventData = {}}, {prisma} ) => {
-        const {mediaType, mediaUrl, mediaPreviewUrl, title = '', description = '',  postedFromEop = false, authorId, coordinates} = data
+        const {
+            mediaType, mediaUrl,
+            mediaPreviewUrl, title = '',
+            description = '', postedFromEop = false,
+            authorId, coordinates
+        } = data
         let {eventId} = data
 
         // Check if authorId is valid
@@ -46,7 +54,7 @@ const Mutation = {
 
         // Create content and connects it to existing event or creates new one.
         // If new event is created, connects event to organizer(User)
-        const createdContent = await prisma.content.create({
+        return await prisma.content.create({
             data: {
                 mediaType,
                 mediaUrl,
@@ -83,7 +91,35 @@ const Mutation = {
                 event: true
             }
         })
-        return createdContent
+    },
+    createEvent: async (_, {data}, context, info) => {
+        const {
+            organizerId, coordinates, title,
+            description = '', country = '',
+            state = '', landmark = ''
+        } = data
+        const prismaOrganizer = await prisma.user.findFirst({
+            where: {id: organizerId}
+        })
+        if(!prismaOrganizer){
+            throw new Error('Invalid user.')
+        }
+
+        return await prisma.event.create({
+            data: {
+                organizer: {
+                    connect: {
+                        id: organizerId
+                    }
+                },
+                coordinates,
+                title,
+                description,
+                country,
+                state,
+                landmark
+            }
+        })
     }
 }
 
