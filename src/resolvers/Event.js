@@ -1,6 +1,3 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
 const Event = {
     content({id}, __, {prisma}){
         return prisma.content.findMany({
@@ -9,8 +6,12 @@ const Event = {
             }
         })
     },
-    organizer({id}, __, {prisma}){
-    
+    organizer({organizerId}, __, {prisma}){
+        return prisma.user.findFirst({
+            where: {
+                id: organizerId
+            }
+        })
     }
 }
 
