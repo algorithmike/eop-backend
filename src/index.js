@@ -11,7 +11,6 @@ import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 // createEvent Mutation
 // editUser Mutation
 // editContent Mutation
-// editEvent Mutation; Only events created from own Content creation.
 // deleteUser Mutation
 // deleteContent Mutation
 
