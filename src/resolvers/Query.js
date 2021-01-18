@@ -1,4 +1,11 @@
 const Query = {
+    oneUser(_, {id}, {prisma}){
+        return prisma.user.findUnique({
+            where: {
+                id
+            }
+        })
+    },
     users(_, {text}, {prisma}){
         if(text){
             return prisma.user.findMany({
@@ -24,6 +31,13 @@ const Query = {
         }
         return prisma.user.findMany()
     },
+    oneContent(_, {id}, {prisma}){
+        return prisma.content.findUnique({
+            where: {
+                id
+            }
+        })
+    },
     content(_, {text}, {prisma}){
         if(text){
             return prisma.content.findMany({
@@ -43,6 +57,13 @@ const Query = {
             })
         }
         return prisma.content.findMany()
+    },
+    oneEvent(_, {id}, {prisma}){
+        return prisma.event.findUnique({
+            where: {
+                id
+            }
+        })
     },
     events(_, {text}, {prisma}){
         if(text){

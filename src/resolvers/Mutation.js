@@ -1,6 +1,3 @@
-import {PrismaClient} from "@prisma/client"
-const prisma = new PrismaClient()
-
 const Mutation = {
     createUser: async (_, {data}, {prisma} ) => {
         const existingUsers = await prisma.user.count({

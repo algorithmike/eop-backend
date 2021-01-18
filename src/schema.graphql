@@ -1,7 +1,10 @@
 type Query {
     users(text: String): [User!]!
+    oneUser(id: String!): User!
     content(text: String): [Content!]!
+    oneContent(id: String!): Content!
     events(text: String): [Event!]!
+    oneEvent(id: String!): Event!
 }
 
 type Mutation {
