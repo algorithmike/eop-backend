@@ -8,7 +8,7 @@ import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 
 // Next:
-// createUser Mutation
+// createEvent Mutation
 // editUser Mutation
 // editContent Mutation
 // editEvent Mutation; Only events created from own Content creation.
