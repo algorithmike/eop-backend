@@ -3,11 +3,13 @@ const ALL_EVENTS = 'ALL_EVENTS'
 
 const Subscription = {
     content: {
+        // pubsub.publish() isn't implemented anywhere for this yet
         subscribe(_, __, {pubsub}){
             return pubsub.asyncIterator(ALL_CONTENT)
         }
     },
     events: {
+        // pubsub.publish() isn't implemented anywhere for this yet
         subscribe(_, __, {pubsub}){
             return pubsub.asyncIterator(ALL_EVENTS)
         }
