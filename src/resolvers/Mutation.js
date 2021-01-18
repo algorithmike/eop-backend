@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const Mutation = {
-    createUser: async (_, {data}, {pubsub, channels}) => {
+    createUser: async (_, {data}, ctxt ) => {
         const existingUsers = await prisma.user.count({
             where: {
                 OR: [
@@ -18,7 +18,7 @@ const Mutation = {
 
         return await prisma.user.create({data})
     },
-    createContent: async (_, {data, newEventData = {}}, {pubsub, channels}) => {
+    createContent: async (_, {data, newEventData = {}}, ctxt ) => {
         const {mediaType, mediaUrl, mediaPreviewUrl, title = '', description = '',  postedFromEop = false, authorId, coordinates} = data
         let {eventId} = data
 
@@ -48,6 +48,7 @@ const Mutation = {
         }
 
         // Create content and connects it to existing event or creates new one.
+        // If new event is created, connects event to organizer(User)
         const createdContent = await prisma.content.create({
             data: {
                 mediaType,
@@ -72,28 +73,17 @@ const Mutation = {
                             city: newEventData.city ? newEventData.city : '',
                             state: newEventData.state ? newEventData.state : '',
                             landmark: newEventData.landmark ? newEventData.landmark : '',
+                            organizer: {
+                                connect: {
+                                    id: authorId
+                                }
+                            }
                         }
                     }
                 }
             },
             include: {
                 event: true
-            }
-        })
-
-        console.log('event: ', createdContent.event)
-
-        // Connect user to event.
-        prisma.user.update({
-            where: {
-                id: authorId
-            },
-            data: {
-                events: {
-                    set: {
-                        id: createdContent.event.id
-                    }
-                }
             }
         })
         return createdContent
