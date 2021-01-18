@@ -12,13 +12,13 @@ const Mutation = {
             }
         })
 
-        if(existingUsers){
+        if(existingUsers > 0){
             throw new Error('That email or username is already in use.')
         }
 
         return await prisma.user.create({data})
     },
-    createContent: async (_, {data, newEventData = {}}, {pubsub, channels, prisma}) => {
+    createContent: async (_, {data, newEventData = {}}, {pubsub, channels}) => {
         const {mediaType, mediaUrl, mediaPreviewUrl, title = '', description = '',  postedFromEop = false, authorId, coordinates} = data
         let {eventId} = data
 
@@ -48,7 +48,6 @@ const Mutation = {
         }
 
         // Create content and connects it to existing event or creates new one.
-        // If new event is created, connects that event to user
         const createdContent = await prisma.content.create({
             data: {
                 mediaType,
@@ -73,12 +72,26 @@ const Mutation = {
                             city: newEventData.city ? newEventData.city : '',
                             state: newEventData.state ? newEventData.state : '',
                             landmark: newEventData.landmark ? newEventData.landmark : '',
-                            attendees: {
-                                connect: {
-                                    id: authorId
-                                }
-                            }
                         }
+                    }
+                }
+            },
+            include: {
+                event: true
+            }
+        })
+
+        console.log('event: ', createdContent.event)
+
+        // Connect user to event.
+        prisma.user.update({
+            where: {
+                id: authorId
+            },
+            data: {
+                events: {
+                    set: {
+                        id: createdContent.event.id
                     }
                 }
             }

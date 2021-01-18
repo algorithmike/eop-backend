@@ -9,19 +9,8 @@ const Event = {
             }
         })
     },
-    attendees({id}, __, {prisma}){
-        // This is completely wrong
-        return prisma.user.findMany({
-            where: {
-                events: {
-                    every: {
-                        id: {
-                            equals: id
-                        }
-                    }
-                }
-            }
-        })
+    organizer({id}, __, {prisma}){
+    
     }
 }
 

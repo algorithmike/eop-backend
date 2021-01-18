@@ -19,7 +19,7 @@ model User {
   description     String?
   profilePicUrl   String?
   content         Content[]
-  events          Event[]    @relation(references: [id])
+  eventsOrganized Event[]
 }
 
 model Content {
@@ -47,6 +47,7 @@ model Event {
   state         String?
   city          String?
   landmark      String?
+  organizer     User      @relation(fields: [organizerId], references: [id])
+  organizerId   String
   content       Content[]
-  attendees     User[]    @relation(references: [id])
 }

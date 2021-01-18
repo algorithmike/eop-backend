@@ -9,28 +9,9 @@ const User = {
             }
         })
     },
-    events: async (parent, __) => {
-        // This is completely wrong
-        // const result = await prisma.event.findMany({
-        //     include: {
-        //         attendees: true
-        //     }
-        // })
-        // result.forEach(item => {
-        //     console.log(item)
-        // })
-        // return result
-        const events = await prisma.event.findMany({
-            where: {
-                attendees: {
-                    every: {
-                        id: parent.id
-                    }
-                }
-            }
-        })
-
-        return events
+    eventsOrganized: async ({id}, __) => {
+        // To be verified
+        return {}
     }
 }
 
