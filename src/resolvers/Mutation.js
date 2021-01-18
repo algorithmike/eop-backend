@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 const Mutation = {
     createUser: async (_, {data}, {pubsub, channels}) => {
-        const existingUser = await prisma.user.findFirst({
+        const existingUsers = await prisma.user.count({
             where: {
                 OR: [
                     { email: data.email },
@@ -12,7 +12,7 @@ const Mutation = {
             }
         })
 
-        if(existingUser){
+        if(existingUsers){
             throw new Error('That email or username is already in use.')
         }
 
