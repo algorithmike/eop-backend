@@ -1,23 +1,21 @@
 const User = {
-    content({id}, __, {prisma}){
+    content(parent, __, {prisma}){
         return prisma.content.findMany({
             where: {
-                authorId: id
+                authorId: parent.id
             }
         })
     },
-    events({id}, __, {prisma}){
-        return prisma.event.findMany({
-            where: {
-                attendees: {
-                    every: {
-                        id: {
-                            equals: id
-                        }
-                    }
-                }
+    events: async (parent, __, {prisma}) => {
+        const result = await prisma.event.findMany({
+            include: {
+                attendees: true
             }
         })
+        result.forEach(item => {
+            console.log(item)
+        })
+        return result
     }
 }
 

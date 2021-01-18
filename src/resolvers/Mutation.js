@@ -78,7 +78,7 @@ const Mutation = {
                                     id: authorId
                                 }
                             }
-                        },
+                        }
                     }
                 }
             }

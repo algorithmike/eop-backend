@@ -8,20 +8,6 @@ const Event = {
                 eventId: id
             }
         })
-    },
-    attendees({id}, __, {prisma}){
-        // This is completely wrong
-        return prisma.user.findMany({
-            where: {
-                events: {
-                    every: {
-                        id: {
-                            equals: id
-                        }
-                    }
-                }
-            }
-        })
     }
 }
 
