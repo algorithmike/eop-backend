@@ -1,8 +1,5 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
 const Mutation = {
-    createUser: async (_, {data}, ctxt ) => {
+    createUser: async (_, {data}, {prisma} ) => {
         const existingUsers = await prisma.user.count({
             where: {
                 OR: [
@@ -18,7 +15,7 @@ const Mutation = {
 
         return await prisma.user.create({data})
     },
-    createContent: async (_, {data, newEventData = {}}, ctxt ) => {
+    createContent: async (_, {data, newEventData = {}}, {prisma} ) => {
         const {mediaType, mediaUrl, mediaPreviewUrl, title = '', description = '',  postedFromEop = false, authorId, coordinates} = data
         let {eventId} = data
 

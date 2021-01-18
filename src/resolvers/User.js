@@ -1,17 +1,17 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
 const User = {
-    content(parent, __, {prisma}){
+    content({id}, __, {prisma}){
         return prisma.content.findMany({
             where: {
-                authorId: parent.id
+                authorId: id
             }
         })
     },
-    eventsOrganized: async ({id}, __) => {
-        // To be verified
-        return {}
+    eventsOrganized: async ({id}, __, {prisma}) => {
+        return prisma.event.findMany({
+            where: {
+                organizerId: id
+            }
+        })
     }
 }
 
