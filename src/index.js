@@ -1,4 +1,5 @@
-import { ApolloServer, PubSub } from 'apollo-server'
+import express from 'express'
+import { ApolloServer, PubSub } from 'apollo-server-express'
 import { PrismaClient } from '@prisma/client'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
@@ -17,6 +18,7 @@ import typeDefs from './schema'
 
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
+const app = express()
 
 const server = new ApolloServer({
   typeDefs,
@@ -38,6 +40,8 @@ const server = new ApolloServer({
   }
 })
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
-})
+server.applyMiddleware({ app })
+
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)
