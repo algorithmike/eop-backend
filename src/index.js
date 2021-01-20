@@ -1,5 +1,6 @@
-import express from 'express'
 import { ApolloServer, PubSub } from 'apollo-server-express'
+import express from 'express'
+import expressJwt from 'express-jwt'
 import { PrismaClient } from '@prisma/client'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
@@ -20,6 +21,14 @@ const pubsub = new PubSub()
 const prisma = new PrismaClient()
 const app = express()
 
+app.use(
+  expressJwt({
+    secret: "JWT_SECRET_PLACEHOLDER",
+    algorithms: ["HS256"],
+    credentialsRequired: false
+  })
+)
+
 const server = new ApolloServer({
   typeDefs,
   resolvers: {
@@ -30,14 +39,15 @@ const server = new ApolloServer({
     Event,
     Subscription
   },
-  context: {
+  context: ({req}) => ({
+    user: (req.user || null),
     pubsub,
     prisma,
     channels: {
       ALL_CONTENT,
       ALL_EVENTS
     }
-  }
+  })
 })
 
 server.applyMiddleware({ app })
