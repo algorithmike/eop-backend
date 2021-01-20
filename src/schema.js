@@ -12,7 +12,7 @@ const typeDefs = gql`
 
     type Mutation {
         login(email: String!, password: String!): AuthPayload!
-        createUser(data: CreateUserInput!): User!
+        createUser(data: CreateUserInput!): AuthPayload!
         createContent(
             data: CreateContentInput!, 
             newEventData: CreateContentInput_event

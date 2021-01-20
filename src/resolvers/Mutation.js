@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const Mutation = {
     login: async (_, {email, password}, {prisma}) => {
@@ -11,9 +12,10 @@ const Mutation = {
             throw new Error("Unable to log in.")
         }
 
-        // Create Token
+        delete user.password
+        
         return {
-            token: "LOGIN PLACEHOLDER"
+            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER')
         }
     },
     createUser: async (_, {data}, {prisma} ) => {
@@ -36,12 +38,16 @@ const Mutation = {
             )
         }
 
-        return await prisma.user.create({
+        const user = await prisma.user.create({
             data: {
                 ...data,
                 password: await bcrypt.hash(data.password, 10)
             }
         })
+
+        return {
+            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER')
+        }
     },
     createContent: async (_, {data, newEventData = {}}, {prisma} ) => {
         const {
