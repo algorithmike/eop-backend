@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs'
+
 const Mutation = {
     createUser: async (_, {data}, {prisma} ) => {
         const existingUsers = await prisma.user.count({
@@ -13,7 +15,18 @@ const Mutation = {
             throw new Error('That email or username is already in use.')
         }
 
-        return await prisma.user.create({data})
+        if(!data.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)){
+            throw new Error('Password must contain between 8 and 20 characters including\n'
+                + ' at least one number, an upper case letter, and a lower case letter.'
+            )
+        }
+
+        return await prisma.user.create({
+            data: {
+                ...data,
+                password: await bcrypt.hash(data.password, 10)
+            }
+        })
     },
     createContent: async (_, {data, newEventData = {}}, {prisma} ) => {
         const {
