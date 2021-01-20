@@ -1,6 +1,21 @@
 import bcrypt from 'bcryptjs'
 
 const Mutation = {
+    login: async (_, {email, password}, {prisma}) => {
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
+        if(!user || !(await bcrypt.compare(password, user.password))){
+            throw new Error("Unable to log in.")
+        }
+
+        // Create Token
+        return {
+            token: "LOGIN PLACEHOLDER"
+        }
+    },
     createUser: async (_, {data}, {prisma} ) => {
         const existingUsers = await prisma.user.count({
             where: {

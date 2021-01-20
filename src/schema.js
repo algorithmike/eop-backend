@@ -11,6 +11,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
+        login(email: String!, password: String!): AuthPayload!
         createUser(data: CreateUserInput!): User!
         createContent(
             data: CreateContentInput!, 
@@ -32,6 +33,10 @@ const typeDefs = gql`
     type EventPubSub {
         mutation: MUTATION_TYPE!
         data: Event!
+    }
+
+    type AuthPayload {
+        token: String!
     }
 
     input CreateUserInput {
