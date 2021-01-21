@@ -53,7 +53,6 @@ const typeDefs = gql`
         mediaUrl: String!
         mediaPreviewUrl: String!
         title: String!
-        authorId: String!
         coordinates: String!
         description: String
         postedFromEop: Boolean
@@ -72,7 +71,6 @@ const typeDefs = gql`
     input CreateEventInput {
         title: String!
         coordinates: String!
-        organizerId: String!
         description: String
         country: String
         state: String

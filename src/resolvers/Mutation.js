@@ -13,9 +13,9 @@ const Mutation = {
         }
 
         delete user.password
-        
+
         return {
-            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER')
+            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER', {algorithm: 'HS256'})
         }
     },
     createUser: async (_, {data}, {prisma} ) => {
@@ -46,17 +46,21 @@ const Mutation = {
         })
 
         return {
-            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER')
+            token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER', {algorithm: 'HS256'})
         }
     },
-    createContent: async (_, {data, newEventData = {}}, {prisma} ) => {
+    createContent: async (_, {data, newEventData = {}}, {prisma, tokenData} ) => {
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+
         const {
             mediaType, mediaUrl,
             mediaPreviewUrl, title = '',
             description = '', postedFromEop = false,
-            authorId, coordinates
-        } = data
+            coordinates } = data
         let {eventId} = data
+        const authorId = tokenData.user.id
 
         // Check if authorId is valid
         const prismaAuthor = await prisma.user.findFirst({
@@ -123,12 +127,17 @@ const Mutation = {
             }
         })
     },
-    createEvent: async (_, {data}, context, info) => {
+    createEvent: async (_, {data}, {prisma, tokenData}) => {
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+
         const {
-            organizerId, coordinates, title,
+            coordinates, title,
             description = '', country = '',
             state = '', landmark = ''
         } = data
+        const organizerId = tokenData.user.id
         const prismaOrganizer = await prisma.user.findFirst({
             where: {id: organizerId}
         })

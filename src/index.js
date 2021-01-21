@@ -21,6 +21,8 @@ const pubsub = new PubSub()
 const prisma = new PrismaClient()
 const app = express()
 
+// Decodes the token form the "Authorization" header of an incoming request,
+// and adds it to the "req" object as "user" property, as used in the context object.
 app.use(
   expressJwt({
     secret: "JWT_SECRET_PLACEHOLDER",
@@ -40,7 +42,7 @@ const server = new ApolloServer({
     Subscription
   },
   context: ({req}) => ({
-    user: (req.user || null),
+    tokenData: (req.user || null),
     pubsub,
     prisma,
     channels: {
