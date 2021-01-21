@@ -18,7 +18,10 @@ import typeDefs from './schema'
 // deleteContent Mutation
 
 const pubsub = new PubSub()
-const prisma = new PrismaClient()
+// const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  log: ['query'],
+})
 const app = express()
 
 // Decodes the token form the "Authorization" header of an incoming request,
