@@ -48,7 +48,7 @@ model Event {
   state         String?
   city          String?
   landmark      String?
-  organizer     User      @relation(fields: [organizerId], references: [id])
-  organizerId   String
+  organizer     User?      @relation(fields: [organizerId], references: [id])
+  organizerId   String?
   content       Content[]
 }
