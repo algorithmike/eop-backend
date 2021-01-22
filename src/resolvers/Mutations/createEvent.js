@@ -1,4 +1,4 @@
-createEvent = async (_, {data}, {prisma, tokenData}) => {
+const createEvent = async (_, {data}, {prisma, tokenData}) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }

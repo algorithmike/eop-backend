@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-createUser = async (_, {data}, {prisma} ) => {
+const createUser = async (_, {data}, {prisma} ) => {
     const existingUsers = await prisma.user.count({
         where: {
             OR: [

@@ -1,4 +1,4 @@
-createContent = async (_, {data, newEventData = {}}, {prisma, tokenData} ) => {
+const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData} ) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }
@@ -77,4 +77,4 @@ createContent = async (_, {data, newEventData = {}}, {prisma, tokenData} ) => {
     })
 }
 
-export default exportContent
+export default createContent

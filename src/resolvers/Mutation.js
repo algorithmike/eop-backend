@@ -8,9 +8,12 @@ const Mutation = {
     createUser,
     createContent,
     createEvent,
-    editUser: async (parent, args, context, info) => {
-
-        
+    editUser: async (parent, args, {tokenData}, info) => {
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+        console.log("tokenData: ")
+        console.log(tokenData)
     }
 }
 
