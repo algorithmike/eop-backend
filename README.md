@@ -3,6 +3,7 @@
 ## Need To Do
 * Create update and delete mutations.
 * add validation for email field
+* remove "password" field from data returned to user in queries
 
 ## Important but not critical:
 * Prisma, in how it's currently implemented, is causing an n + 1 problem... sending too many queries to the database when utilizing child resolvers from query.
