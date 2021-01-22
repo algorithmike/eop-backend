@@ -1,4 +1,4 @@
-const editUser = async (_, {edits}, {tokenData}, info) => {
+const editUser = async (_, {edits}, {tokenData, prisma}, info) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }

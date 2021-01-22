@@ -72,6 +72,7 @@ const typeDefs = gql`
     }
 
     input EditContentInput {
+        id: ID!
         title: String
         description: String
         customDate: Float
