@@ -14,26 +14,26 @@ const editUser = async (_, {edits}, {tokenData, prisma}, info) => {
         throw new Error('User not found.')
     }
 
-    const updatedUser = {}
+    const updates = {}
 
     if(password){
         if(password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)){
-            updatedUser.password = await bcrypt.hash(password, 10)
+            updates.password = await bcrypt.hash(password, 10)
         } else{
             throw new Error('Password must contain between 8 and 20 characters including\n'
             + ' at least one number, an upper case letter, and a lower case letter.')
         }
     }
 
-    if(email){ updatedUser.email = email }
-    if(username){ updatedUser.username = username }
-    if(realname){ updatedUser.realname = realname }
-    if(description){ updatedUser.description = description }
-    if(profilePicUrl){ updatedUser.profilePicUrl = profilePicUrl }
+    if(email){ updates.email = email }
+    if(username){ updates.username = username }
+    if(realname){ updates.realname = realname }
+    if(description){ updates.description = description }
+    if(profilePicUrl){ updates.profilePicUrl = profilePicUrl }
 
     return prisma.user.update({
         where: {id: tokenData.id},
-        data: {...updatedUser}
+        data: {updates}
     })
 }
 
