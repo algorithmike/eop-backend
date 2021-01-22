@@ -17,7 +17,8 @@ const typeDefs = gql`
             data: CreateContentInput!, 
             newEventData: CreateContentInput_event
             ): Content!
-        createEvent (data: CreateEventInput!): Event!
+        createEvent(data: CreateEventInput!): Event!
+        editUser(edits: EditUserInput): User!
     }
 
     type Subscription {
@@ -43,6 +44,15 @@ const typeDefs = gql`
         email: String!
         username: String!
         password: String!
+        realname: String
+        description: String
+        profilePicUrl: String
+    }
+
+    input EditUserInput {
+        email: String
+        username: String
+        password: String
         realname: String
         description: String
         profilePicUrl: String
