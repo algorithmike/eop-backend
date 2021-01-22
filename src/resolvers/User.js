@@ -1,17 +1,17 @@
 const User = {
     content({id}, __, {prisma}){
-        return prisma.content.findMany({
+        return prisma.user.findUnique({
             where: {
-                authorId: id
+                id
             }
-        })
+        }).content()
     },
     eventsOrganized: async ({id}, __, {prisma}) => {
-        return prisma.event.findMany({
+        return prisma.user.findUnique({
             where: {
-                organizerId: id
+                id
             }
-        })
+        }).eventsOrganized()
     }
 }
 
