@@ -18,8 +18,13 @@ const typeDefs = gql`
             newEventData: CreateContentInput_event
             ): Content!
         createEvent(data: CreateEventInput!): Event!
+        claimEvent(eventId: String!): Event!
         editUser(edits: EditUserInput!): User!
         editContent(edits: EditContentInput!): Content!
+        editEvent(edits: EditEventInput!): Event!
+        deleteUser(): User!
+        deleteContent(): Content!
+        deleteEvent(): Event!
     }
 
     type Subscription {
@@ -98,6 +103,16 @@ const typeDefs = gql`
         landmark: String
     }
 
+    input EditEventInput {
+        title: String
+        coordinates: String
+        description: String
+        country: String
+        state: String
+        city: String
+        landmark: String
+    }
+
     type User {
         id: ID!
         username: String!
@@ -133,7 +148,7 @@ const typeDefs = gql`
         state: String
         city: String
         landmark: String
-        organizer: User!
+        organizer: User
         content: [Content!]!
     }
 
