@@ -29,7 +29,7 @@ const createUser = async (_, {data}, {prisma} ) => {
     })
 
     return {
-        token: jwt.sign({user}, 'JWT_SECRET_PLACEHOLDER', {algorithm: 'HS256'})
+        token: jwt.sign({id: user.id}, 'JWT_SECRET_PLACEHOLDER', {algorithm: 'HS256'})
     }
 }
 
