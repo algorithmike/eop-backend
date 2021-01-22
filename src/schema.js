@@ -18,7 +18,8 @@ const typeDefs = gql`
             newEventData: CreateContentInput_event
             ): Content!
         createEvent(data: CreateEventInput!): Event!
-        editUser(edits: EditUserInput): User!
+        editUser(edits: EditUserInput!): User!
+        editContent(edits: EditContentInput!): Content!
     }
 
     type Subscription {
@@ -66,6 +67,14 @@ const typeDefs = gql`
         coordinates: String!
         description: String
         postedFromEop: Boolean
+        customDate: Float
+        eventId: String
+    }
+
+    input EditContentInput {
+        title: String
+        description: String
+        customDate: Float
         eventId: String
     }
 
@@ -109,6 +118,7 @@ const typeDefs = gql`
         mediaUrl: String!
         mediaPreviewUrl: String!
         description: String
+        customDate: Float
         author: User!
         event: Event!
     }

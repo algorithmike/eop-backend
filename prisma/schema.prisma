@@ -32,6 +32,7 @@ model Content {
   mediaUrl        String
   mediaPreviewUrl String
   description     String?
+  customDate      DateTime?
   author          User       @relation(fields: [authorId], references: [id])
   authorId        String
   event           Event      @relation(fields: [eventId], references: [id])
