@@ -18,7 +18,10 @@ const Mutation = {
         // If event has no organizer,
         // connect event with organizer if the organizer has content for the event.
         // Else throw error.
-        
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+
         const event = await prisma.event.findUnique({
             where: {id: eventId},
             include: {
@@ -58,12 +61,35 @@ const Mutation = {
         // Delete content.
         // If the associated event has no organizer or other content, delete that event.
     },
-    deleteEvent: (parent, args, {tokenData}) => {
+    deleteEvent: async (parent, {eventId}, {tokenData}) => {
         // Verify that the event is organized by user.
+
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+
+        const event = await prisma.event.findFirst({
+            where: {
+                AND: [
+                    {id: eventId},
+                    {organizerId: tokenData.id}
+                ]
+            }, include: {
+                content: true
+            }
+        }).then(result => {
+            if(!result){
+                throw new Error('Unauthorized to delete event.')
+            }
+            return result
+        })
+
+        console.log(event)
+
         // If the event has content associated with it, disassociate organizer from event.
         // Else delete event.
 
-
+        return event
     }
 }
 

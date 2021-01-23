@@ -24,7 +24,7 @@ const typeDefs = gql`
         editEvent(edits: EditEventInput!): Event!
         deleteUser: User!
         deleteContent: Content!
-        deleteEvent: Event!
+        deleteEvent(eventId: String!): Event!
     }
 
     type Subscription {

@@ -33,7 +33,7 @@ const editUser = async (_, {edits}, {tokenData, prisma}, info) => {
 
     return prisma.user.update({
         where: {id: tokenData.id},
-        data: {updates}
+        data: {...updates}
     })
 }
 
