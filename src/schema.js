@@ -22,9 +22,9 @@ const typeDefs = gql`
         editUser(edits: EditUserInput!): User!
         editContent(edits: EditContentInput!): Content!
         editEvent(edits: EditEventInput!): Event!
-        deleteUser(): User!
-        deleteContent(): Content!
-        deleteEvent(): Event!
+        deleteUser: User!
+        deleteContent: Content!
+        deleteEvent: Event!
     }
 
     type Subscription {
