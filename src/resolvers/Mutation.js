@@ -13,11 +13,7 @@ const Mutation = {
     createUser,
     createContent,
     createEvent,
-    claimEvent: async (_, {eventId}, {tokenData}) => {
-        // To be tested:
-        // If event has no organizer,
-        // connect event with organizer if the organizer has content for the event.
-        // Else throw error.
+    claimEvent: async (_, {eventId}, {tokenData, prisma}) => {
         if(!tokenData){
             throw new Error('Unauthorized action!')
         }
@@ -38,7 +34,7 @@ const Mutation = {
             data: {
                 organizer: {
                     connect: {
-                        where: {id: tokenData.id}
+                        id: tokenData.id
                     }
                 }
             }
@@ -61,7 +57,7 @@ const Mutation = {
         // Delete content.
         // If the associated event has no organizer or other content, delete that event.
     },
-    deleteEvent: async (parent, {eventId}, {tokenData}) => {
+    deleteEvent: async (_, {eventId}, {tokenData, prisma}) => {
         // Verify that the event is organized by user.
 
         if(!tokenData){
@@ -79,17 +75,29 @@ const Mutation = {
             }
         }).then(result => {
             if(!result){
-                throw new Error('Unauthorized to delete event.')
+                throw new Error('Unable to identify event.')
             }
             return result
         })
 
-        console.log(event)
-
-        // If the event has content associated with it, disassociate organizer from event.
-        // Else delete event.
-
-        return event
+        if(event.content.length > 0){
+            return prisma.event.update({
+                where: {
+                    id: eventId
+                },
+                data: {
+                    organizer: {
+                        disconnect: true
+                    }
+                }
+            })
+        }
+        
+        return prisma.event.delete({
+            where: {
+                id: eventId
+            }
+        })
     }
 }
 

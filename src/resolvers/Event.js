@@ -7,11 +7,14 @@ const Event = {
         })
     },
     organizer({organizerId}, __, {prisma}){
-        return prisma.user.findFirst({
-            where: {
-                id: organizerId
-            }
-        })
+        if(organizerId){
+            return prisma.user.findFirst({
+                where: {
+                    id: organizerId
+                }
+            })
+        }
+        return undefined;
     }
 }
 
