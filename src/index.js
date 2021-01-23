@@ -10,13 +10,6 @@ import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
-// Next:
-// editUser Mutation
-// editContent Mutation
-// editEvent Mutation
-// deleteUser Mutation
-// deleteContent Mutation
-
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
 const app = express()

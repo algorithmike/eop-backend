@@ -13,10 +13,35 @@ const Mutation = {
     createUser,
     createContent,
     createEvent,
-    claimEvent: () => {
+    claimEvent: async (_, {eventId}, {tokenData}) => {
+        // To be tested:
         // If event has no organizer,
         // connect event with organizer if the organizer has content for the event.
         // Else throw error.
+        
+        const event = await prisma.event.findUnique({
+            where: {id: eventId},
+            include: {
+                organizer: true
+            }
+        })
+
+        if(event.organizer){
+            throw new Error('Event is already claimed.')
+        }
+
+        return prisma.event.update({
+            where: {id: eventId},
+            data: {
+                organizer: {
+                    connect: {
+                        where: {id: tokenData.id}
+                    }
+                }
+            }
+        }).catch(() => {
+            throw new Error('Unable to claim event.')
+        })
     },
     editUser,
     editContent,
@@ -37,6 +62,8 @@ const Mutation = {
         // Verify that the event is organized by user.
         // If the event has content associated with it, disassociate organizer from event.
         // Else delete event.
+
+
     }
 }
 
