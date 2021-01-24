@@ -12,7 +12,7 @@ const login = async (_, {email, password}, {prisma}) => {
     }
 
     return {
-        token: jwt.sign({id: user.id}, 'JWT_SECRET_PLACEHOLDER', {algorithm: 'HS256'})
+        token: jwt.sign({id: user.id}, process.env.JWT_SECRET, {algorithm: 'HS256'})
     }
 }
 

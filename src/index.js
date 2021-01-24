@@ -18,7 +18,7 @@ const app = express()
 // and adds it to the "req" object as "user" property, as used in the context object.
 app.use(
   expressJwt({
-    secret: "JWT_SECRET_PLACEHOLDER",
+    secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
     credentialsRequired: false
   })
