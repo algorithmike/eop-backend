@@ -104,6 +104,7 @@ const typeDefs = gql`
     }
 
     input EditEventInput {
+        eventId: String!
         title: String
         coordinates: String
         description: String

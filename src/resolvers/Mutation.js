@@ -19,9 +19,38 @@ const Mutation = {
     editContent,
     editUser,
     login,
-    editEvent: () => {
+    editEvent: async (_, {edits}, {tokenData}) => {
         // Verify that the event is organized by user.
         // Optionally edit all fields
+        if(!tokenData){
+            throw new Error('Unauthorized action!')
+        }
+        const event = await prisma.event.findFirst({
+            where: {
+                AND: [
+                    {organizerId: tokenData.id},
+                    {id: edits.eventId}
+                ]
+            }
+        }).then(result => {
+            if(!result){
+                throw new Error('Unable to identify event.')
+            }
+            return result
+        })
+
+        if(Object.keys(edits).length > 1){
+            const {eventId} = edits
+            delete edits.eventId
+
+            return prisma.event.update({
+                where: {
+                    id: eventId
+                },
+                data: {...edits}
+            })
+        }
+        throw new Error('No updates were declared.')
     },
     deleteUser: () => {
         // Delete current user, their content, and disassociate or delete their events
