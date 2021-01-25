@@ -9,7 +9,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData} )
         description = '', postedFromEop = false,
         coordinates } = data
     let {eventId} = data
-    const authorId = tokenData.user.id
+    const authorId = tokenData.id
 
     // Check if authorId is valid
     const prismaAuthor = await prisma.user.findFirst({

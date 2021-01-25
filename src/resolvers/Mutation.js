@@ -22,13 +22,27 @@ const Mutation = {
     editEvent,
     editUser,
     login,
-    deleteUser: (_, __, {tokenData}) => {
-        // Delete current user, their content, and disassociate or delete their events
-        // based on conditions of other people's content connected with it.
+    deleteUser: async (_, __, {tokenData}) => {
+        // Delete content first.
+        // Get an array of each of the eventID of eventsOrganized for user.
+        // Delete user.
+        // For each of the eventIDs, see if it has an associated author,
+        // or any remaining associated content. If not, delete the event.
         if(!tokenData){
             throw new Error('Unauthorized action!')
         }
 
+        // await prisma.content.deleteMany({
+        //     where: { authorId: tokenData.id }
+        // })
+
+        const organizedEvents = await prisma.event.findMany({
+            where: {organizerId: tokenData.id},
+            select: {id: true}
+        })
+
+        console.log('organizedEvents: ', organizedEvents)
+        console.log(tokenData)
         return prisma.user.findUnique({
             where: {id: tokenData.id}
         })

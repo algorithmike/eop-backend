@@ -8,7 +8,7 @@ const createEvent = async (_, {data}, {prisma, tokenData}) => {
         description = '', country = '',
         state = '', landmark = ''
     } = data
-    const organizerId = tokenData.user.id
+    const organizerId = tokenData.id
     const prismaOrganizer = await prisma.user.findFirst({
         where: {id: organizerId}
     })
