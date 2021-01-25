@@ -20,6 +20,9 @@ const deleteEvent = async (_, {eventId}, {tokenData, prisma}) => {
     })
 
     if(event.content.length > 0){
+        // If the event has any content in it, don't delete the event,
+        // rather just disassociate the event from the organizer
+        // so that the content can continue to exist with event.
         return prisma.event.update({
             where: {
                 id: eventId
@@ -30,13 +33,13 @@ const deleteEvent = async (_, {eventId}, {tokenData, prisma}) => {
                 }
             }
         })
+    } else {
+        return prisma.event.delete({
+            where: {
+                id: eventId
+            }
+        })
     }
-    
-    return prisma.event.delete({
-        where: {
-            id: eventId
-        }
-    })
 }
 
 export default deleteEvent
