@@ -20,8 +20,11 @@ const editContent = async (_, {edits}, {tokenData, prisma}) => {
     if(eventId){
         await prisma.event.findUnique({
             where: {id: eventId}
-        }).catch(() => {
-            throw new Error('Unable to update event.')
+        }).then(result => {
+            if(!result){
+                throw new Error('Unable to update event.')
+            }
+            return result
         })
     }
 

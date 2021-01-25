@@ -23,7 +23,7 @@ const typeDefs = gql`
         editContent(edits: EditContentInput!): Content!
         editEvent(edits: EditEventInput!): Event!
         deleteUser: User!
-        deleteContent: Content!
+        deleteContent(contentId: String!): Content!
         deleteEvent(eventId: String!): Event!
     }
 
