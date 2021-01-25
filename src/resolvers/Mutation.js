@@ -42,7 +42,6 @@ const Mutation = {
         })
 
         console.log('organizedEvents: ', organizedEvents)
-        console.log(tokenData)
         return prisma.user.findUnique({
             where: {id: tokenData.id}
         })
