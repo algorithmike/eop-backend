@@ -66,6 +66,7 @@ const Mutation = {
                 id: content.eventId
             }
         })
+        
         // This implementation will cause errors if return value
         // requires any non-scalar fields. Possible workaround would be to
         // eager-load the non-scalar fields, but that's a hit on performance.
