@@ -35,6 +35,8 @@ const server = new ApolloServer({
     Event,
     Subscription
   },
+  introspection: true, // In full release, it's best practice to disable this.
+  playground: true, // In full release, it's best practice to disable this.
   context: ({req}) => ({
     tokenData: (req.user || null),
     pubsub,
