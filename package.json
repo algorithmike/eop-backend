@@ -8,12 +8,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "npm run clean && npm run build-babel",
-    "build-babel": "babel -d ./build ./src -s",
-    "clean": "rm -rf build && mkdir build",
     "dev": "nodemon src/index.js --exec babel-node",
+    "heroku-postbuild": "",
     "prototype-db": "npx prisma db push --preview-feature",
-    "start": "npm run build && node ./build/index.js"
+    "start": ""
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
