@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime.js"
 import { ApolloServer, PubSub } from 'apollo-server-express'
 import express from 'express'
 import expressJwt from 'express-jwt'
@@ -47,6 +48,9 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app })
 
-app.listen({ port: process.env.PORT || 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+app.listen({ port: process.env.PORT || 4000 }, () => {
+    if(!process.env.PORT){
+      console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+    }
+  }
 )
