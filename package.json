@@ -8,8 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node",
-    "prototype-db": "npx prisma db push --preview-feature"
+    "build": "npm run clean && npm run build-babel",
+    "build-babel": "babel -d ./build ./src -s",
+    "clean": "rm -rf build && mkdir build",
+    "dev": "nodemon src/index.js --exec babel-node",
+    "prototype-db": "npx prisma db push --preview-feature",
+    "start": "npm run build && node ./build/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
