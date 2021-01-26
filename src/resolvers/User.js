@@ -6,6 +6,14 @@ const User = {
             }
         }).content()
     },
+    email(parent, _, {tokenData}){
+        if(!tokenData) { return null }
+        if(parent.id === tokenData.id){
+            return parent.email
+        } else {
+            return null
+        }
+    },
     eventsOrganized: async ({id}, __, {prisma}) => {
         return prisma.user.findUnique({
             where: {

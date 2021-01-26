@@ -117,8 +117,8 @@ const typeDefs = gql`
     type User {
         id: ID!
         username: String!
-        email: String!
-        password: String!
+        email: String
+        # password: String!
         realname: String
         description: String
         profilePicUrl: String
