@@ -1,3 +1,5 @@
+import hashPassword from '../../utils/hashPassword'
+
 const editUser = async (_, {edits}, {tokenData, prisma}, info) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
@@ -16,14 +18,7 @@ const editUser = async (_, {edits}, {tokenData, prisma}, info) => {
 
     const updates = {}
 
-    if(password){
-        if(password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)){
-            updates.password = await bcrypt.hash(password, 10)
-        } else{
-            throw new Error('Password must contain between 8 and 20 characters including\n'
-            + ' at least one number, an upper case letter, and a lower case letter.')
-        }
-    }
+    updates.password = await hashPassword(password)
 
     if(email){ updates.email = email }
     if(username){ updates.username = username }
