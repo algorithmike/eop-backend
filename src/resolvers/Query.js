@@ -6,23 +6,25 @@ const Query = {
             }
         })
     },
-    users(_, {text}, {prisma}){
-        if(text){
+    users(_, {filter}, {prisma}){
+        if(filter){
             return prisma.user.findMany({
+                take: filter.take || 10,
+                skip: filter.skip,
                 where: {
                     OR: [{
                             username: { 
-                                contains: text,
+                                contains: filter.text || '',
                                 mode: "insensitive"
                             }
                         },{
                             email: {
-                                contains: text,
+                                contains: filter.text || '',
                                 mode: "insensitive"
                             }
                         },{
                             realname: {
-                                contains: text,
+                                contains: filter.text || '',
                                 mode: "insensitive"
                             }
                         }]
@@ -38,18 +40,20 @@ const Query = {
             }
         })
     },
-    content(_, {text}, {prisma}){
-        if(text){
+    content(_, {filter}, {prisma}){
+        if(filter){
             return prisma.content.findMany({
+                take: filter.take || 10,
+                skip: filter.skip,
                 where: {
                     OR: [{
                         title: {
-                            contains: text,
+                            contains: filter.text || '',
                             mode: "insensitive"
                         }
                     },{
                         description: {
-                            contains: text,
+                            contains: filter.text || '',
                             mode: "insensitive"
                         }
                     }]
@@ -65,23 +69,25 @@ const Query = {
             }
         })
     },
-    events(_, {text}, {prisma}){
-        if(text){
+    events(_, {filter}, {prisma}){
+        if(filter){
             return prisma.event.findMany({
+                take: filter.take || 10,
+                skip: filter.skip,
                 where: {
                     OR: [{
                             title: {
-                                contains: text,
+                                contains: filter.text,
                                 mode: "insensitive"
                             }
                         },{
                             description: {
-                                contains: text,
+                                contains: filter.text,
                                 mode: "insensitive"
                             }
                         },{
                             landmark: {
-                                contains: text,
+                                contains: filter.text,
                                 mode: "insensitive"
                             }
                         }]

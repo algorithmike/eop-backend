@@ -2,11 +2,11 @@ import { gql } from "apollo-server-express"
 
 const typeDefs = gql`
     type Query {
-        users(text: String): [User!]!
+        users(filter: FilterInput): [User!]!
         oneUser(id: String!): User!
-        content(text: String): [Content!]!
+        content(filter: FilterInput): [Content!]!
         oneContent(id: String!): Content!
-        events(text: String): [Event!]!
+        events(filter: FilterInput): [Event!]!
         oneEvent(id: String!): Event!
     }
 
@@ -53,6 +53,12 @@ const typeDefs = gql`
         realname: String
         description: String
         profilePicUrl: String
+    }
+
+    input FilterInput {
+        text: String
+        take: Int
+        skip: Int
     }
 
     input EditUserInput {
@@ -118,7 +124,6 @@ const typeDefs = gql`
         id: ID!
         username: String!
         email: String
-        # password: String!
         realname: String
         description: String
         profilePicUrl: String
