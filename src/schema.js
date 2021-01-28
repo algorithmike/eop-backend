@@ -59,6 +59,7 @@ const typeDefs = gql`
         text: String
         take: Int
         skip: Int
+        cursor: String
     }
 
     input EditUserInput {
