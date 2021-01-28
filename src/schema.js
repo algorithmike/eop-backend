@@ -72,7 +72,7 @@ const typeDefs = gql`
     }
 
     input CreateContentInput {
-        mediaType: String!
+        mediaType: MEDIA_TYPE!
         mediaUrl: String!
         mediaPreviewUrl: String!
         title: String!
@@ -134,9 +134,10 @@ const typeDefs = gql`
 
     type Content {
         id: ID!
-        mediaType: String!
+        mediaType: MEDIA_TYPE!
         title: String!
         createdAt: Float!
+        updatedAt: Float!
         postedFromEop: Boolean!
         mediaUrl: String!
         mediaPreviewUrl: String!
@@ -163,6 +164,12 @@ const typeDefs = gql`
         CREATED
         UPDATED
         DELETED
+    }
+
+    enum MEDIA_TYPE {
+        IMAGE
+        VIDEO
+        ALL
     }
 `
 export default typeDefs
