@@ -9,11 +9,15 @@ const Query = {
     users(_, {filter}, {prisma}){
         if(filter){
             const cursor = filter.cursor ? {id: filter.cursor} : undefined;
+            const orderBy = (filter.orderBy) ? 
+                {[filter.orderBy.key]: filter.orderBy.direction} :
+                {username: 'asc'}
 
             return prisma.user.findMany({
                 take: filter.take || 10,
                 skip: filter.skip,
                 cursor,
+                orderBy,
                 where: {
                     OR: [{
                             username: { 
@@ -46,8 +50,10 @@ const Query = {
     content(_, {filter}, {prisma}){
         if(filter){
             const cursor = filter.cursor ? {id: filter.cursor} : undefined;
-            const orderBy = {[filter.orderBy.key]: filter.orderBy.direction}
-            console.log(orderBy)
+            const orderBy = (filter.orderBy) ? 
+                {[filter.orderBy.key]: filter.orderBy.direction} :
+                {updatedAt: 'asc'}
+            console.log(orderBy) // continue here
 
             return prisma.content.findMany({
                 take: filter.take || 10,
@@ -81,11 +87,15 @@ const Query = {
     events(_, {filter}, {prisma}){
         if(filter){
             const cursor = filter.cursor ? {id: filter.cursor} : undefined;
+            const orderBy = (filter.orderBy) ? 
+                {[filter.orderBy.key]: filter.orderBy.direction} :
+                {updatedAt: 'asc'}
 
             return prisma.event.findMany({
                 take: filter.take || 10,
                 skip: filter.skip,
                 cursor,
+                orderBy,
                 where: {
                     OR: [{
                             title: {

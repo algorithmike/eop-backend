@@ -60,7 +60,7 @@ const typeDefs = gql`
         take: Int
         skip: Int
         cursor: String
-        orderBy: OrderByInput
+        orderBy: FilterInput_orderBy
     }
 
     input FilterInput_orderBy {
