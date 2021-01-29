@@ -60,6 +60,12 @@ const typeDefs = gql`
         take: Int
         skip: Int
         cursor: String
+        orderBy: OrderByInput
+    }
+
+    input FilterInput_orderBy {
+        key: String!
+        direction: SORT_DIRECTION!
     }
 
     input EditUserInput {
@@ -170,6 +176,11 @@ const typeDefs = gql`
         IMAGE
         VIDEO
         ALL
+    }
+
+    enum SORT_DIRECTION {
+        asc
+        desc
     }
 `
 export default typeDefs
