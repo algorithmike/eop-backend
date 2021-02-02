@@ -53,7 +53,6 @@ const Query = {
             const orderBy = (filter.orderBy) ? 
                 {[filter.orderBy.key]: filter.orderBy.direction} :
                 {updatedAt: 'asc'}
-            console.log(orderBy) // continue here
 
             return prisma.content.findMany({
                 take: filter.take || 10,
