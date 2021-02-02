@@ -116,6 +116,11 @@ const Query = {
             })
         }
         return prisma.event.findMany()
+    },
+    uploads(parent, args, context){
+        return ([{
+            url: 'HelloWorld.jpg'
+        }])
     }
 }
 

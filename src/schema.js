@@ -8,6 +8,7 @@ const typeDefs = gql`
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
         oneEvent(id: String!): Event!
+        uploads: [File!]!
     }
 
     type Mutation {
@@ -25,6 +26,7 @@ const typeDefs = gql`
         deleteUser: User!
         deleteContent(contentId: String!): Content!
         deleteEvent(eventId: String!): Event!
+        uploadFile(file: Upload!): File!
     }
 
     type Subscription {
@@ -44,6 +46,10 @@ const typeDefs = gql`
 
     type AuthPayload {
         token: String!
+    }
+
+    type File {
+        url: String!
     }
 
     input CreateUserInput {
