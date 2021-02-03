@@ -9,28 +9,7 @@ import editContent from './Mutations/editContent'
 import editEvent from './Mutations/editEvent'
 import editUser from './Mutations/editUser'
 import login from './Mutations/login'
-
-import path from 'path'
-import { createWriteStream } from 'fs'
-
-const files = [];
-
-const uploadFile = async (parent, {file}, context) => {
-    console.log('uploadFile CHECKPOINT!')
-    const {createReadStream, filename, mimetype, encoding} = await file
-    const pathName = path.join(__dirname, '../../public/images', filename)
-
-    await new Promise(res => 
-        createReadStream()
-            .pipe(createWriteStream(pathName))
-            .on('close', res)
-    )
-
-    files.push(filename)
-    return {
-        url: pathName
-    }
-}
+import uploadFile from './Mutations/uploadFile'
 
 const Mutation = {
     claimEvent,
@@ -44,7 +23,7 @@ const Mutation = {
     editEvent,
     editUser,
     login,
-    uploadFile // FOR FILE UPLOAD
+    uploadFile
 }
 
 export default Mutation
