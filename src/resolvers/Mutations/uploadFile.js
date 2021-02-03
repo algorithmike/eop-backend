@@ -3,7 +3,7 @@ import { createWriteStream } from 'fs'
 
 const uploadFile = async (_, {file}) => {
     const {createReadStream, filename, mimetype, encoding} = await file
-    const pathName = path.join(__dirname, '../../public/content', filename)
+    const pathName = path.join(__dirname, '../../../public/content', filename)
 
     await new Promise(res => 
         createReadStream()

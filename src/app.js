@@ -1,4 +1,5 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
+import cors from 'cors'
 import express from 'express'
 import expressJwt from 'express-jwt'
 import { PrismaClient } from '@prisma/client'
@@ -13,6 +14,8 @@ import typeDefs from './schema'
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
 const app = express()
+
+app.use(cors())
 
 // Decodes the token form the "Authorization" header of an incoming request,
 // and adds it to the "req" object as "user" property, as used in the context object.

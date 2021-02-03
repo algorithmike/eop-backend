@@ -14,6 +14,24 @@ beforeAll( async () => {
     await prisma.content.deleteMany()
     await prisma.event.deleteMany()
     await prisma.user.deleteMany()
+
+    const createUser = gql`
+        mutation {
+            createUser (
+                data: {
+                    email: "test@duplicate.com"
+                    username: "Duplicate User Test"
+                    password: "testPassword123"
+                }
+            ){
+                token
+            }
+        }
+    `
+
+    await client.mutate({
+        mutation: createUser
+    })
 })
 
 afterAll( async () => {
@@ -52,7 +70,7 @@ describe('Users', () => {
     //         mutation {
     //             createUser (
     //                 data: {
-    //                     email: "test@email.com"
+    //                     email: "test@duplicate.com"
     //                     username: "Test User"
     //                     password: "testPassword123"
     //                 }
@@ -66,7 +84,7 @@ describe('Users', () => {
     //         client.mutate({mutation: createUser})
     //     }
 
-    //     expect(testDuplicateEmailError).toThrowError(/email/)
+    //     expect(testDuplicateEmailError).toThrowError()
     // })
 
     test('Query all users.', async () => {
@@ -85,7 +103,5 @@ describe('Users', () => {
         const result = await client.query({
             query: queryUsers
         })
-
-        console.log('queryUsers: ', result)
     })
 })
