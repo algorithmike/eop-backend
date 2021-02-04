@@ -14,12 +14,7 @@ import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
 // For GC content bucket
-const keyFileName = (process.env.NODE_ENV === 'production')
-  ? '../gckey.json' : '../key.json'
-const gc = new Storage({
-    keyFilename: path.join(__dirname, keyFileName),
-    projectId: process.env.GC_PROJECT_ID
-})
+const gc = new Storage()
 const bucket = gc.bucket('eop-content')
 
 const pubsub = new PubSub()
@@ -27,7 +22,7 @@ const prisma = new PrismaClient()
 
 const app = express()
 
-app.use(cors())
+// app.use(cors())
 
 // Decodes the token form the "Authorization" header of an incoming request,
 // and adds it to the "req" object as "user" property, as used in the context object.

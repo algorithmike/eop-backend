@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "build": "babel src --out-dir dist --copy-files",
     "dev": "nodemon src/index.js --exec babel-node",
-    "heroku-postbuild": "babel src --out-dir dist --copy-files",
     "postinstall": "echo $GC_CREDS > ./src/gckey.json",
     "prototype-db": "npx prisma db push --preview-feature",
     "start": "node dist/index.js",
@@ -45,5 +45,8 @@
   "resolutions": {
     "**/**/fs-capacitor": "^6.2.0",
     "**/graphql-upload": "^11.0.0"
+  },
+  "engines": {
+    "node": "14.x.x"
   }
 }
