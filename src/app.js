@@ -1,4 +1,5 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
+import AWS from 'aws-sdk'
 import cors from 'cors'
 import express from 'express'
 import expressJwt from 'express-jwt'
@@ -11,6 +12,8 @@ import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
+
+const s3 = new AWS.S3()
 
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
@@ -43,13 +46,14 @@ const server = new ApolloServer({
   introspection: true, // In full release, it's best practice to disable this.
   playground: true, // In full release, it's best practice to disable this.
   context: ({req}) => ({
-    tokenData: (req.user || null),
-    pubsub,
-    prisma,
     channels: {
       ALL_CONTENT,
       ALL_EVENTS
-    }
+    },
+    prisma,
+    pubsub,
+    s3,
+    tokenData: (req.user || null)
   })
 })
 
