@@ -8,8 +8,9 @@ const uploadFile = async (_, {file}, {s3}) => {
     s3.upload({
         Body: createReadStream(filename),
         Bucket: process.env.AWS_PHOTO_CONTENT_BUCKET,
-        Key: path.basename(filename)
-    }, (err, data) => {
+        Key: path.basename(filename),
+        ACL: 'public-read-write'
+      }, (err, data) => {
         if (err) {
             console.log("Error", err);
         } if (data) {
