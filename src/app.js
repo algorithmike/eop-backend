@@ -1,4 +1,5 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
+import AWS from 'aws-sdk'
 import express from 'express'
 import expressJwt from 'express-jwt'
 import { PrismaClient } from '@prisma/client'
@@ -11,7 +12,7 @@ import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
 
-const s3 = new AWS.S3()
+const space = new AWS.S3()
 
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
@@ -50,6 +51,7 @@ const server = new ApolloServer({
     },
     prisma,
     pubsub,
+    space,
     tokenData: (req.user || null)
   })
 })
