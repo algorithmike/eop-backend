@@ -2,8 +2,6 @@ import { ApolloServer, PubSub } from 'apollo-server-express'
 import cors from 'cors'
 import express from 'express'
 import expressJwt from 'express-jwt'
-import { Storage } from '@google-cloud/storage'
-import path from 'path'
 import { PrismaClient } from '@prisma/client'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
@@ -13,9 +11,6 @@ import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
-// For GC content bucket
-const gc = new Storage()
-const bucket = gc.bucket('eop-content')
 
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
@@ -48,7 +43,6 @@ const server = new ApolloServer({
   introspection: true, // In full release, it's best practice to disable this.
   playground: true, // In full release, it's best practice to disable this.
   context: ({req}) => ({
-    bucket,
     tokenData: (req.user || null),
     pubsub,
     prisma,

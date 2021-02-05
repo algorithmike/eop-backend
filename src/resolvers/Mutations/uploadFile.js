@@ -1,4 +1,6 @@
-const uploadFile = async (_, {file}, {bucket}) => {
+
+
+const uploadFile = async (_, {file}) => {
     const {createReadStream, filename, mimetype} = await file
 
     console.log('mimetype: ', mimetype)
@@ -6,15 +8,16 @@ const uploadFile = async (_, {file}, {bucket}) => {
     await new Promise(res => 
         createReadStream()
             .pipe(
-                bucket.file(filename).createWriteStream({
-                    resumable: false,
-                    gzip: true
-                })
+                // ****** REPLACE THIS GOOGLE BUCKET CODE ******
+                // bucket.file(filename).createWriteStream({
+                //     resumable: false,
+                //     gzip: true
+                // })
             )
             .on('finish', res)
     )
     return {
-        url: `${process.env.BUCKET_URL}${filename}`
+        url: `*enter*url*here/${filename}`
     }
 }
 
