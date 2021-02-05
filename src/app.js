@@ -1,6 +1,4 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
-import AWS from 'aws-sdk'
-import cors from 'cors'
 import express from 'express'
 import expressJwt from 'express-jwt'
 import { PrismaClient } from '@prisma/client'
@@ -52,7 +50,6 @@ const server = new ApolloServer({
     },
     prisma,
     pubsub,
-    s3,
     tokenData: (req.user || null)
   })
 })
