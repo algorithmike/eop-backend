@@ -60,6 +60,6 @@ const server = new ApolloServer({
   })
 })
 
-server.applyMiddleware({ app })
+server.applyMiddleware({ app, path: '/' })
 
 export default app
