@@ -7,9 +7,9 @@ const uploadFile = async (_, {file}, {space}) => {
 
     space.upload({
         Body: createReadStream(filename),
-        Bucket: process.env.PHOTO_BUCKET, // Update Env Var
+        Bucket: process.env.SPACES_PHOTO_BUCKET,
         Key: path.basename(filename),
-        ACL: 'public-read-write'
+        ACL: 'public-read'
       }, (err, data) => {
         if (err) {
             console.log("Error", err);

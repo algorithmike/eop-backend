@@ -11,8 +11,12 @@ import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
 
-
-const space = new AWS.S3()
+const spacesEndpoint = new AWS.Endpoint(process.env.SPACES_ENDPOINT);
+const space = new AWS.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId: process.env.SPACES_KEY,
+  secretAccessKey: process.env.SPACES_SECRET
+})
 
 const pubsub = new PubSub()
 const prisma = new PrismaClient()
