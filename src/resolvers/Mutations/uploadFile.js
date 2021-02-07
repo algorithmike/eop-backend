@@ -3,6 +3,9 @@ import path from 'path'
 const uploadFile = async (_, {file}, {space}) => {
     const {createReadStream, filename, mimetype} = await file
 
+    // Create logic for file type here: If image, elsse if video, else reject.
+    // Also, put this into a util, and use it in "createContent.js" instead of
+    // as a separate mutation.
     console.log('mimetype: ', mimetype)
 
     space.upload({
