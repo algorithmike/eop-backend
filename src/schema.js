@@ -8,7 +8,6 @@ const typeDefs = gql`
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
         oneEvent(id: String!): Event!
-        uploads: [File!]!
     }
 
     type Mutation {
@@ -84,9 +83,7 @@ const typeDefs = gql`
     }
 
     input CreateContentInput {
-        mediaType: MEDIA_TYPE!
-        mediaUrl: String!
-        mediaPreviewUrl: String!
+        file: Upload!
         title: String!
         coordinates: String!
         description: String
@@ -146,7 +143,7 @@ const typeDefs = gql`
 
     type Content {
         id: ID!
-        mediaType: MEDIA_TYPE!
+        mediaType: String!
         title: String!
         createdAt: Float!
         updatedAt: Float!
@@ -176,12 +173,6 @@ const typeDefs = gql`
         CREATED
         UPDATED
         DELETED
-    }
-
-    enum MEDIA_TYPE {
-        IMAGE
-        VIDEO
-        ALL
     }
 
     enum SORT_DIRECTION {
