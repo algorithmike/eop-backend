@@ -3,6 +3,8 @@ import 'cross-fetch/polyfill'
 import ApolloClient, { gql } from 'apollo-boost';
 import { PrismaClient } from '@prisma/client'
 
+import hashPassword from '../../../utils/hashPassword'
+
 const prisma = new PrismaClient();
 
 const client = new ApolloClient({
@@ -15,22 +17,26 @@ beforeAll( async () => {
     await prisma.event.deleteMany()
     await prisma.user.deleteMany()
 
-    const createUser = gql`
-        mutation {
-            createUser (
-                data: {
-                    email: "test@duplicate.com"
-                    username: "Duplicate User Test"
-                    password: "testPassword123"
-                }
-            ){
-                token
-            }
+    const {id: user1_id} = await prisma.user.create({
+        data: {
+            email: 'user.test.one1@email.com',
+            username: 'usertest_username1',
+            password: await hashPassword('testPassword123'),
+            realname: 'User Test 1',
+            description: 'This is the first user tester.',
+            profilePicUrl: 'https://i.pinimg.com/564x/4d/f1/93/4df193b6dc700bd806fc0273506f8587.jpg'
         }
-    `
+    })
 
-    await client.mutate({
-        mutation: createUser
+    const {id: user2_id} = await prisma.user.create({
+        data: {
+            email: 'user.test.two2@email.com',
+            username: 'usertest_username2',
+            password: await hashPassword('testPassword123'),
+            realname: 'User Test 2',
+            description: 'This is the second user tester.',
+            profilePicUrl: 'https://i.pinimg.com/564x/4d/f1/93/4df193b6dc700bd806fc0273506f8587.jpg'
+        }
     })
 })
 
