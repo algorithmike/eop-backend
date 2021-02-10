@@ -1,5 +1,5 @@
 import path from 'path'
-
+import { nanoid } from 'nanoid'
 const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, space} ) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
@@ -15,7 +15,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     let mediaUrl = ''
     let {eventId} = data
     const {createReadStream, filename, mimetype} = await file
-    const [mediaType] = mimetype.split('/')
+    const [mediaType, fileExt] = mimetype.split('/')
     const authorId = tokenData.id
 
     // Check if authorId is valid.
@@ -49,7 +49,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
             space.upload({
                 Body: createReadStream(filename),
                 Bucket: process.env.SPACES_PHOTO_BUCKET,
-                Key: path.basename(filename),
+                Key: path.basename(`${nanoid()}.${fileExt}`),
                 ACL: 'public-read'
             }, (err, data) => {
                 if (err) {
