@@ -2,6 +2,7 @@ import 'regenerator-runtime/runtime.js'
 import 'cross-fetch/polyfill'
 import ApolloClient, { gql } from 'apollo-boost';
 import { PrismaClient } from '@prisma/client'
+import jwt from 'jsonwebtoken';
 
 import hashPassword from '../../../utils/hashPassword'
 
@@ -136,7 +137,50 @@ afterAll( async () => {
 })
 
 describe('Users', () => {
-    test('Create user.', async () => {
+    test('Query all users, receive all user data.', async () => {
+        const queryUsers = gql`
+            query {
+                content {
+                    id
+                    title
+                    mediaType
+                    mediaUrl
+                    mediaPreviewUrl
+                    description
+                }
+            }
+        `
+        const result = await client.query({
+            query: queryUsers
+        })
+    })
+
+    test('Query one user, receive user data.', async () => {
+        const {id} = await prisma.user.findUnique({
+            where: {username: 'usertest_username1'}
+        })
+        
+        const queryOneUser = gql`
+            query oneUser($id: String!){
+                oneUser(id: $id){
+                    id
+                    username
+                    email
+                }
+            }
+        `
+        const result = await client.query({
+            query: queryOneUser,
+            variables: {
+                id
+            }
+        })
+
+        expect(result.data.oneUser.username).toBe('usertest_username1')
+    })
+
+
+    test('Create user, receive user data.', async () => {
         const createUser = gql`
             mutation {
                 createUser (
@@ -161,43 +205,39 @@ describe('Users', () => {
         expect(testUser.email).toBe('test@email.com')
     })
 
-    // test('Create user with duplicate email, throws error.', () => {
-    //     const createUser = gql`
-    //         mutation {
-    //             createUser (
-    //                 data: {
-    //                     email: "test@duplicate.com"
-    //                     username: "Test User"
-    //                     password: "testPassword123"
-    //                 }
-    //             ){
-    //                 token
-    //             }
-    //         }
-    //     `
-
-    //     const testDuplicateEmailError = () => {
-    //         client.mutate({mutation: createUser})
-    //     }
-
-    //     expect(testDuplicateEmailError).toThrowError()
-    // })
-
-    test('Query all users.', async () => {
-        const queryUsers = gql`
-            query {
-                content {
-                    id
-                    title
-                    mediaType
-                    mediaUrl
-                    mediaPreviewUrl
-                    description
+    test('Login user, token verified.', async () => {
+        const login = gql`
+            mutation {
+                login (
+                    email: "user.test.two2@email.com",
+                    password: "testPassword123"
+                ){
+                    token
                 }
             }
         `
-        const result = await client.query({
-            query: queryUsers
+
+        const result = await client.mutate({
+            mutation: login
         })
+
+        jwt.verify(result.data.login.token, process.env.JWT_SECRET)
+    })
+
+    test('Incorrectly login user, token rejected.', () => {
+        const login = gql`
+            mutation {
+                login (
+                    email: "user.test.two2@email.com",
+                    password: "wrongPassword"
+                ){
+                    token
+                }
+            }
+        `
+
+        expect(client.mutate({mutation: login}))
+            .rejects
+            .toThrow()
     })
 })
