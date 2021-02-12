@@ -18,6 +18,8 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     const [mediaType, fileExt] = mimetype.split('/')
     const authorId = tokenData.id
 
+    console.log('mimetype: ', mimetype)
+
     // Check if authorId is valid.
     const prismaAuthor = await prisma.user.findFirst({
         where: {id: authorId}
@@ -62,6 +64,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     } else {
         // Need to add video handling.
         console.log('Only images are handled right now.')
+        throw new Error('That file type is not supported.')
     }
 
     // Create content and connects it to existing event or creates new one.

@@ -11,8 +11,15 @@ const login = async (_, {email, password}, {prisma}) => {
         throw new Error("Unable to log in.")
     }
 
+    console.log('user: ', user)
     return {
-        token: jwt.sign({id: user.id}, process.env.JWT_SECRET, {algorithm: 'HS256'})
+        ...user,
+        token: jwt.sign(
+            {id: user.id},
+            process.env.JWT_SECRET,
+            {algorithm: 'HS256'}
+        )
+
     }
 }
 

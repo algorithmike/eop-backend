@@ -44,6 +44,11 @@ const typeDefs = gql`
 
     type AuthPayload {
         token: String!
+        username: String!
+        email: String!
+        realname: String
+        description: String
+        profilePicUrl: String
     }
 
     input CreateUserInput {
