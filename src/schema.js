@@ -25,7 +25,6 @@ const typeDefs = gql`
         deleteUser: User!
         deleteContent(contentId: String!): Content!
         deleteEvent(eventId: String!): Event!
-        uploadFile(file: Upload!): File!
     }
 
     type Subscription {
@@ -45,10 +44,6 @@ const typeDefs = gql`
 
     type AuthPayload {
         token: String!
-    }
-
-    type File {
-        url: String!
     }
 
     input CreateUserInput {

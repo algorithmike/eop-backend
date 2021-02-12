@@ -9,7 +9,6 @@ import editContent from './Mutations/editContent'
 import editEvent from './Mutations/editEvent'
 import editUser from './Mutations/editUser'
 import login from './Mutations/login'
-import uploadFile from './Mutations/uploadFile'
 
 const Mutation = {
     claimEvent,
@@ -22,8 +21,7 @@ const Mutation = {
     editContent,
     editEvent,
     editUser,
-    login,
-    uploadFile
+    login
 }
 
 export default Mutation
