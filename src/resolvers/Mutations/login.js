@@ -11,7 +11,6 @@ const login = async (_, {email, password}, {prisma}) => {
         throw new Error("Unable to log in.")
     }
 
-    console.log('user: ', user)
     return {
         ...user,
         token: jwt.sign(

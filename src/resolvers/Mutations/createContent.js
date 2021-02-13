@@ -15,10 +15,19 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     let mediaUrl = ''
     let {eventId} = data
     const {createReadStream, filename, mimetype} = await file
-    const [mediaType, fileExt] = mimetype.split('/')
     const authorId = tokenData.id
+    const [mediaType, fileExt] = mimetype.split('/')
+    let properBucket;
 
-    console.log('mimetype: ', mimetype)
+    if(mediaType === 'image'){
+        properBucket = process.env.SPACES_PHOTO_BUCKET
+        // Need to generate image preview image.
+    } else if(mediaType === 'video'){
+        properBucket = process.env.SPACES_VIDEO_BUCKET
+        // Need to generate video preview image.
+    } else {
+        throw new Error('That file type is not supported.')
+    }
 
     // Check if authorId is valid.
     const prismaAuthor = await prisma.user.findFirst({
@@ -46,26 +55,20 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     }
 
     // Upload file.
-    if(mediaType === 'image'){
-        mediaUrl = await new Promise((resolve) => {
-            space.upload({
-                Body: createReadStream(filename),
-                Bucket: process.env.SPACES_PHOTO_BUCKET,
-                Key: path.basename(`${nanoid()}.${fileExt}`),
-                ACL: 'public-read'
-            }, (err, data) => {
-                if (err) {
-                    throw new Error('Unable to upload file.')
-                } else if (data) {
-                    resolve(data.Location)
-                }
-            })
+    mediaUrl = await new Promise((resolve) => {
+        space.upload({
+            Body: createReadStream(filename),
+            Bucket: properBucket,
+            Key: path.basename(`${nanoid()}.${fileExt}`),
+            ACL: 'public-read'
+        }, (err, data) => {
+            if (err) {
+                throw new Error('Unable to upload file.')
+            } else if (data) {
+                resolve(data.Location)
+            }
         })
-    } else {
-        // Need to add video handling.
-        console.log('Only images are handled right now.')
-        throw new Error('That file type is not supported.')
-    }
+    })
 
     // Create content and connects it to existing event or creates new one.
     // If new event is created, connects event to organizer(User)
