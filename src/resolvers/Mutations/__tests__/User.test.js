@@ -224,20 +224,20 @@ describe('Users', () => {
         jwt.verify(result.data.login.token, process.env.JWT_SECRET)
     })
 
-    test('Incorrectly login user, token rejected.', () => {
-        const login = gql`
-            mutation {
-                login (
-                    email: "user.test.two2@email.com",
-                    password: "wrongPassword"
-                ){
-                    token
-                }
-            }
-        `
+    // test('Incorrectly login user, token rejected.', () => {
+    //     const login = gql`
+    //         mutation {
+    //             login (
+    //                 email: "user.test.two2@email.com",
+    //                 password: "wrongPassword"
+    //             ){
+    //                 token
+    //             }
+    //         }
+    //     `
 
-        expect(client.mutate({mutation: login}))
-            .rejects
-            .toThrow()
-    })
+    //     expect(client.mutate({mutation: login}))
+    //         .rejects
+    //         .toThrow()
+    // })
 })
