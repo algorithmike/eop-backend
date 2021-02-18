@@ -1,4 +1,7 @@
 const Query = {
+    hello(){
+        return 'Hello world!'
+    },
     oneUser(_, {id}, {prisma}){
         return prisma.user.findUnique({
             where: {

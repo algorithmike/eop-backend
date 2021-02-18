@@ -8,6 +8,7 @@ const typeDefs = gql`
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
         oneEvent(id: String!): Event!
+        hello: String!
     }
 
     type Mutation {
