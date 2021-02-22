@@ -10,6 +10,7 @@ import Content from './resolvers/Content'
 import Event from './resolvers/Event'
 import Subscription, {ALL_CONTENT, ALL_EVENTS} from './resolvers/Subscription'
 import typeDefs from './schema'
+import bodyParser from 'body-parser'
 
 const spacesEndpoint = new AWS.Endpoint(process.env.SPACES_ENDPOINT);
 const space = new AWS.S3({
@@ -35,6 +36,11 @@ app.use(
     credentialsRequired: false
   })
 )
+
+// File upload size limit
+
+app.use(bodyParser.json({limit: "100mb"}));
+app.use(bodyParser.urlencoded({limit: "100mb", extended: true, parameterLimit:100000}));
 
 const server = new ApolloServer({
   typeDefs,
