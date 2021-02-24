@@ -2,13 +2,13 @@ import { gql } from "apollo-server-express"
 
 const typeDefs = gql`
     type Query {
+        me: User!
         users(filter: FilterInput): [User!]!
         oneUser(id: String!): User!
         content(filter: FilterInput): [Content!]!
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
         oneEvent(id: String!): Event!
-        hello: String!
     }
 
     type Mutation {

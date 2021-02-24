@@ -1,6 +1,10 @@
 const Query = {
-    hello(){
-        return 'Hello world!'
+    me(_, __, {prisma, tokenData}){
+        return prisma.user.findUnique({
+            where: {
+                id: tokenData.id
+            }
+        })
     },
     oneUser(_, {id}, {prisma}){
         return prisma.user.findUnique({
