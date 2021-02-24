@@ -1,6 +1,7 @@
 import path from 'path'
 import { nanoid } from 'nanoid'
 const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, space} ) => {
+    console.log('createContent CHECKPOINT!')
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }
