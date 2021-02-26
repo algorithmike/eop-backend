@@ -96,7 +96,10 @@ const Query = {
             const orderBy = (filter.orderBy) ? 
                 {[filter.orderBy.key]: filter.orderBy.direction} :
                 {updatedAt: 'asc'}
-
+            
+            //TODO: Setup coordinate / proximity filtering.
+            // coordinates come in as string:
+            // Latitude: 37.42342342342342, Longitude: -122.08395287867832
             return prisma.event.findMany({
                 take: filter.take || 10,
                 skip: filter.skip,
