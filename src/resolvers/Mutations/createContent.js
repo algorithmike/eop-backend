@@ -40,10 +40,11 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     
     // Check if eventId is valid, if is provided for connection.
     if(eventId){
+        
         const prismaEvent = await prisma.event.findFirst({
             where: {id: eventId}
         })
-        if(!prismaEvent){
+        if(!prismaEvent && eventId === 'new'){
             throw new Error('Invalid event.')
         }
     } else {
