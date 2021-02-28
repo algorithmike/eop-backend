@@ -20,6 +20,13 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     const [mediaType, fileExt] = mimetype.split('/')
     let properBucket;
 
+
+    // Create automatic values of event location based on coordinates.
+    let [, latitude, , longitude] = coordinates.split(' ')
+        .map(item => item.trim().replace(/,/g, ''))
+        
+    const location = await getLocFromCoords(latitude, longitude)
+
     if(mediaType === 'image'){
         properBucket = process.env.SPACES_PHOTO_BUCKET
         // Need to generate image preview image.
@@ -94,10 +101,10 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
                         title: newEventData.title ? newEventData.title : 'Unnamed Event',
                         coordinates,
                         description: newEventData.description ? newEventData.description : '',
-                        country: newEventData.country ? newEventData.country : '',
-                        city: newEventData.city ? newEventData.city : '',
-                        state: newEventData.state ? newEventData.state : '',
-                        landmark: newEventData.landmark ? newEventData.landmark : '',
+                        country: location.country,
+                        city: location.city,
+                        state: location.state,
+                        landmark: location.landmark ? location.landmark : location.streetAddress,
                         organizer: {
                             connect: {
                                 id: authorId
