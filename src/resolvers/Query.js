@@ -1,3 +1,5 @@
+import getLocFromCoords from '../utils/locationDetails'
+
 const Query = {
     me(_, __, {prisma, tokenData}){
         return prisma.user.findUnique({
@@ -90,16 +92,21 @@ const Query = {
             }
         })
     },
-    events(_, {filter}, {prisma}){
+    async events(_, {filter}, {prisma}){
+        //TODO: Set this up as input rather than hardcoded.
+        const coordinates = 'Latitude: 37.42342342342342, Longitude: -122.08395287867832'
+        let [, latitude, , longitude] = coordinates.split(' ')
+            .map(item => item.trim().replace(/,/g, ''))
+        
+        const location = await getLocFromCoords(latitude, longitude)
+        console.log('location: ', location)
+
         if(filter){
             const cursor = filter.cursor ? {id: filter.cursor} : undefined;
             const orderBy = (filter.orderBy) ? 
                 {[filter.orderBy.key]: filter.orderBy.direction} :
                 {updatedAt: 'asc'}
-            
-            //TODO: Setup coordinate / proximity filtering.
-            // coordinates come in as string:
-            // Latitude: 37.42342342342342, Longitude: -122.08395287867832
+
             return prisma.event.findMany({
                 take: filter.take || 10,
                 skip: filter.skip,
