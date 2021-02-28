@@ -8,6 +8,7 @@ const typeDefs = gql`
         content(filter: FilterInput): [Content!]!
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
+        eventsInProximity(coordinates: String!): [Event!]!
         oneEvent(id: String!): Event!
     }
 

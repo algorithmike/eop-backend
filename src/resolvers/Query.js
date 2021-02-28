@@ -92,15 +92,7 @@ const Query = {
             }
         })
     },
-    async events(_, {filter}, {prisma}){
-        //TODO: Set this up as input rather than hardcoded.
-        const coordinates = 'Latitude: 37.42342342342342, Longitude: -122.08395287867832'
-        let [, latitude, , longitude] = coordinates.split(' ')
-            .map(item => item.trim().replace(/,/g, ''))
-        
-        const location = await getLocFromCoords(latitude, longitude)
-        console.log('location: ', location)
-
+    events(_, {filter}, {prisma}){
         if(filter){
             const cursor = filter.cursor ? {id: filter.cursor} : undefined;
             const orderBy = (filter.orderBy) ? 
@@ -133,6 +125,15 @@ const Query = {
             })
         }
         return prisma.event.findMany()
+    },
+    eventsInProximity: async (_, {coordinates}, {prisma}) => {
+        // coordinates = 'Latitude: 37.42342342342342, Longitude: -122.08395287867832'
+        let [, latitude, , longitude] = coordinates.split(' ')
+            .map(item => item.trim().replace(/,/g, ''))
+        
+        const location = await getLocFromCoords(latitude, longitude)
+        console.log('location: ', location)
+        return []
     }
 }
 
