@@ -44,7 +44,7 @@ beforeAll( async () => {
     // Seed events.
      // coordinates = 'Latitude: 37.42342342342342, Longitude: -122.08395287867832'
 
-    const {id: event1_id} = await prisma.event.create({
+     const {id: event1_id} = await prisma.event.create({
         data: {
             organizer: {
                 connect: {
@@ -54,10 +54,10 @@ beforeAll( async () => {
             coordinates: 'Latitude: 37.42342342342342, Longitude: -122.08395287867832',
             title: 'Event One Title',
             description: 'This is a description for the first event.',
-            country: 'USA',
-            state: 'NV',
-            city: 'Reno',
-            landmark: 'Circus Circus'
+            country: 'United States',
+            state: 'California',
+            city: 'Mountain View',
+            landmark: 'Ampitheater Parkway'
         }
     })
     const {id: event2_id} = await prisma.event.create({
@@ -70,8 +70,10 @@ beforeAll( async () => {
             coordinates: 'Latitude: 36.6002, Longitude: -121.8947',
             title: 'Event Two Title',
             description: 'This is a description for the second event.',
-            country: 'Monterey',
-            city: 'United States',
+            country: 'United States',
+            state: 'California',
+            city: 'Monterey',
+            landmark: 'West Franklin Street'
         }
     })
 
