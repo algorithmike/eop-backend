@@ -13,6 +13,7 @@ const client = new ApolloClient({
 });
 
 beforeAll( async () => {
+    jest.setTimeout(10000)
     await seed()
 })
 

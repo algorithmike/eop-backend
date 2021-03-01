@@ -86,24 +86,26 @@ const seed = async () => {
     })
 
     // Seed content.
-    await prisma.content.create({
-        data: {
-            mediaType: 'image',
-            mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
-            mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
-            title: 'Test Content One',
-            author: {
-                connect: {
-                    id: user1_id
-                }
-            },
-            event: {
-                connect: {
-                    id: event1_id
-                }
-            },
-        }
-    })
+    for(let x = 0; x < 14; x++){
+        await prisma.content.create({
+            data: {
+                mediaType: 'image',
+                mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
+                mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
+                title: `Test Content #${x + 1}`,
+                author: {
+                    connect: {
+                        id: user2_id
+                    }
+                },
+                event: {
+                    connect: {
+                        id: event2_id
+                    }
+                },
+            }
+        })
+    }
 
     await prisma.content.create({
         data: {
@@ -113,7 +115,7 @@ const seed = async () => {
             title: 'Test Content Two',
             author: {
                 connect: {
-                    id: user2_id
+                    id: user1_id
                 }
             },
             event: {
@@ -132,7 +134,7 @@ const seed = async () => {
             title: 'Test Content Three',
             author: {
                 connect: {
-                    id: user2_id
+                    id: user1_id
                 }
             },
             event: {
