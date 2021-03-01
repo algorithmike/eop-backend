@@ -9,9 +9,10 @@ const getLocFromCoords = async (latitude, longitude) => {
         ${longitude},${latitude}.json?access_token=${process.env.MAPBOX_KEY}`
     )
 
+    if(data.features.length === 0){return null}
+    
     let landmark = data.features[0].text
-    let [streetAddress] = data.features[0].place_name.split(',')
-    let [city, state, country] = data.features[2].place_name.split(',').map(item => item.trim())
+    let [streetAddress, city, state, country] = data.features[0].place_name.split(',').map(item => item.trim())
 
     return {country, state, city, streetAddress, landmark}
 }

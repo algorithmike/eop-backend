@@ -55,11 +55,12 @@ beforeAll( async () => {
             title: 'Event One Title',
             description: 'This is a description for the first event.',
             country: 'United States',
-            state: 'California',
+            state: 'California 94043',
             city: 'Mountain View',
             landmark: 'Ampitheater Parkway'
         }
     })
+
     const {id: event2_id} = await prisma.event.create({
         data: {
             organizer: {
@@ -71,12 +72,30 @@ beforeAll( async () => {
             title: 'Event Two Title',
             description: 'This is a description for the second event.',
             country: 'United States',
-            state: 'California',
+            state: 'California 93940',
             city: 'Monterey',
             landmark: 'West Franklin Street'
         }
     })
 
+    const {id: event3_id} = await prisma.event.create({
+        data: {
+            organizer: {
+                connect: {
+                    id: user2_id
+                }
+            },
+            coordinates: 'Latitude: 33.8704, Longitude: -117.9242',
+            title: 'Event Three Title',
+            description: 'This is a description for the third event.',
+            country: 'United States',
+            state: 'California 92832',
+            city: 'Fullerton',
+            landmark: 'East Commonwealth Avenue'
+        }
+    })
+
+    // Seed content.
     const {id: content1_id} = await prisma.content.create({
         data: {
             mediaType: 'image',

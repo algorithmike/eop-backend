@@ -135,6 +135,11 @@ const Query = {
             .map(item => item.trim().replace(/,/g, ''))
         
         const location = await getLocFromCoords(latitude, longitude)
+        if(!location){return []}
+        if(location.country !== 'United States'){
+            console.log('Currently only works in the United States in English.')
+            return[];
+        }
 
         return prisma.event.findMany({
             where: {
