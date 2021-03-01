@@ -1,5 +1,9 @@
 import getLocFromCoords from '../utils/locationDetails'
 
+//TODO: Delete these lines
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient();
+
 const Query = {
     me(_, __, {prisma, tokenData}){
         return prisma.user.findUnique({
@@ -126,14 +130,27 @@ const Query = {
         }
         return prisma.event.findMany()
     },
-    eventsInProximity: async (_, {coordinates}, {prisma}) => {
-        // coordinates = 'Latitude: 37.42342342342342, Longitude: -122.08395287867832'
+    eventsInProximity: async (_, {coordinates}) => {
         let [, latitude, , longitude] = coordinates.split(' ')
             .map(item => item.trim().replace(/,/g, ''))
         
         const location = await getLocFromCoords(latitude, longitude)
-        console.log('location: ', location)
-        return []
+
+        return prisma.event.findMany({
+            where: {
+                AND: [
+                    {
+                        city: location.city
+                    },
+                    {
+                        OR: [
+                            {landmark: location.landmark},
+                            {state: location.state}
+                        ]
+                    }
+                ]
+            }
+        })
     }
 }
 
