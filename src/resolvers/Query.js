@@ -130,6 +130,7 @@ const Query = {
         }
         return prisma.event.findMany()
     },
+    // To be used in Mobile for dropdown event selector in CreateContent screen.
     eventsInProximity: async (_, {coordinates}) => {
         let [, latitude, , longitude] = coordinates.split(' ')
             .map(item => item.trim().replace(/,/g, ''))
