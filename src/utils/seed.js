@@ -86,7 +86,7 @@ const seed = async () => {
     })
 
     // Seed content.
-    for(let x = 0; x < 14; x++){
+    for(let x = 0; x < 12; x++){
         await prisma.content.create({
             data: {
                 mediaType: 'image',

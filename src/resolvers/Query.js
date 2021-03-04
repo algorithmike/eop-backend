@@ -60,34 +60,45 @@ const Query = {
             }
         })
     },
-    content(_, {filter}, {prisma}){
-        if(filter){
-            const cursor = filter.cursor ? {id: filter.cursor} : undefined;
-            const orderBy = (filter.orderBy) ? 
-                {[filter.orderBy.key]: filter.orderBy.direction} :
-                {updatedAt: 'asc'}
-
-            return prisma.content.findMany({
-                take: filter.take || 10,
-                skip: filter.skip,
-                cursor,
-                orderBy,
+    content: async (_, {filter, location, epochTime}) => {
+        let content = (location) ?
+            await prisma.content.findMany({
                 where: {
-                    OR: [{
-                        title: {
-                            contains: filter.text || '',
-                            mode: "insensitive"
-                        }
-                    },{
-                        description: {
-                            contains: filter.text || '',
-                            mode: "insensitive"
-                        }
-                    }]
+                    event: {
+                        AND: [
+                            {country: location.country},
+                            {state: location.state},
+                            {city: location.city}
+                        ]
+                    }
                 }
+            }) :
+            await prisma.content.findMany()
+        
+        if(filter){
+            content = content.filter(item => {
+                return(
+                    item.title?.includes(filter.text) ||
+                    item.description?.includes(filter.text)
+                )
+                
             })
         }
-        return prisma.content.findMany()
+
+        if(epochTime){
+            const beginning = parseInt(epochTime.beginning)
+            const end = parseInt(epochTime.end)
+
+            content = content.filter(item => {
+                const time = item.createdAt.getTime()
+                return(
+                    time >= beginning &&
+                    time <= end
+                )
+            })
+        }
+
+        return content;
     },
     oneEvent(_, {id}, {prisma}){
         return prisma.event.findUnique({
@@ -131,7 +142,7 @@ const Query = {
         return prisma.event.findMany()
     },
     // To be used in Mobile for dropdown event selector in CreateContent screen.
-    eventsInProximity: async (_, {coordinates}) => {
+    eventsInProximity: async (_, {coordinates}, {prisma}) => {
         let [, latitude, , longitude] = coordinates.split(' ')
             .map(item => item.trim().replace(/,/g, ''))
         

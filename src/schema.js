@@ -5,7 +5,11 @@ const typeDefs = gql`
         me: User!
         users(filter: FilterInput): [User!]!
         oneUser(id: String!): User!
-        content(filter: FilterInput): [Content!]!
+        content(
+            filter: FilterInput,
+            location: LocationInput,
+            epochTime: EpochTimeRangeInput
+            ): [Content!]!
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
         eventsInProximity(coordinates: String!): [Event!]!
@@ -68,6 +72,17 @@ const typeDefs = gql`
         skip: Int
         cursor: String
         orderBy: FilterInput_orderBy
+    }
+
+    input LocationInput {
+        country: String
+        state: String
+        city: String
+    }
+
+    input EpochTimeRangeInput {
+        beginning: String!
+        end: String!
     }
 
     input FilterInput_orderBy {
