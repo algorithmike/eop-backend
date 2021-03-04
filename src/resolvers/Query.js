@@ -98,7 +98,7 @@ const Query = {
             })
         }
 
-        if(mediaType && (mediaType.length > 0)){
+        if(mediaType && (mediaType == 'image' || mediaType == 'video')){
             content = content.filter(item => {
                 return(
                     item.mediaType === mediaType
