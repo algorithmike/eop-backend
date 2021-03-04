@@ -81,8 +81,8 @@ const typeDefs = gql`
     }
 
     input EpochTimeRangeInput {
-        beginning: String!
-        end: String!
+        beginning: String
+        end: String
     }
 
     input FilterInput_orderBy {

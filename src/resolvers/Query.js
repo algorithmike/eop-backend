@@ -85,15 +85,15 @@ const Query = {
             })
         }
 
-        if(epochTime){
+        if(epochTime ){
             const beginning = parseInt(epochTime.beginning)
             const end = parseInt(epochTime.end)
 
             content = content.filter(item => {
                 const time = item.createdAt.getTime()
                 return(
-                    time >= beginning &&
-                    time <= end
+                    ((beginning) ? (time >= beginning) : true) &&
+                    ((end) ? (time <= end) : true)
                 )
             })
         }
