@@ -60,8 +60,8 @@ const Query = {
             }
         })
     },
-    content: async (_, {filter, location, epochTime}) => {
-        let content = (location) ?
+    content: async (_, {filter, location, epochTime, mediaType}) => {
+        let content = (location && (location.length > 0)) ?
             await prisma.content.findMany({
                 where: {
                     event: {
@@ -75,7 +75,7 @@ const Query = {
             }) :
             await prisma.content.findMany()
         
-        if(filter){
+        if(filter && (filter.length > 0)){
             content = content.filter(item => {
                 return(
                     item.title?.includes(filter.text) ||
@@ -85,7 +85,7 @@ const Query = {
             })
         }
 
-        if(epochTime ){
+        if(epochTime && (epochTime.length > 0)){
             const beginning = parseInt(epochTime.beginning)
             const end = parseInt(epochTime.end)
 
@@ -94,6 +94,14 @@ const Query = {
                 return(
                     ((beginning) ? (time >= beginning) : true) &&
                     ((end) ? (time <= end) : true)
+                )
+            })
+        }
+
+        if(mediaType && (mediaType.length > 0)){
+            content = content.filter(item => {
+                return(
+                    item.mediaType === mediaType
                 )
             })
         }

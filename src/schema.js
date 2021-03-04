@@ -8,7 +8,8 @@ const typeDefs = gql`
         content(
             filter: FilterInput,
             location: LocationInput,
-            epochTime: EpochTimeRangeInput
+            epochTime: EpochTimeRangeInput,
+            mediaType: MEDIA_TYPE
             ): [Content!]!
         oneContent(id: String!): Content!
         events(filter: FilterInput): [Event!]!
@@ -195,6 +196,12 @@ const typeDefs = gql`
     enum SORT_DIRECTION {
         asc
         desc
+    }
+
+    enum MEDIA_TYPE {
+        image
+        video
+        all
     }
 `
 export default typeDefs

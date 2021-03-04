@@ -17,7 +17,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     let {eventId} = data
     const {createReadStream, filename, mimetype} = await file
     const authorId = tokenData.id
-    const [mediaType, fileExt] = mimetype.split('/')
+    const [mediaType, fileExt] = mimetype.split('/').map(item => item.toLowerCase())
     let properBucket;
 
 
