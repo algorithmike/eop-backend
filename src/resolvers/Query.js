@@ -1,9 +1,5 @@
 import getLocFromCoords from '../utils/locationDetails'
 
-//TODO: Delete these lines
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient();
-
 const Query = {
     me(_, __, {prisma, tokenData}){
         return prisma.user.findUnique({
@@ -60,7 +56,7 @@ const Query = {
             }
         })
     },
-    content: async (_, {filter, location, epochTime, mediaType}) => {
+    content: async (_, {filter, location, epochTime, mediaType}, {prisma}) => {
         let content = (location && (location.length > 0)) ?
             await prisma.content.findMany({
                 where: {
@@ -75,7 +71,7 @@ const Query = {
             }) :
             await prisma.content.findMany()
         
-        if(filter && (filter.length > 0)){
+        if(filter && (filter.text.length > 0)){
             content = content.filter(item => {
                 return(
                     item.title?.includes(filter.text) ||
@@ -97,7 +93,8 @@ const Query = {
                 )
             })
         }
-
+        
+        //TODO: Implement enums for mediaType in schema.js
         if(mediaType && (mediaType == 'image' || mediaType == 'video')){
             content = content.filter(item => {
                 return(
