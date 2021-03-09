@@ -65,18 +65,22 @@ const Query = {
         {[filter.orderBy.key]: filter.orderBy.direction} :
         {createdAt: 'desc'}
 
-        let content = (location && (location.length > 0)) ?
-            await prisma.content.findMany({
+        let content = (epochTime.beginning && epochTime.end) ?
+            await prisma.content.findMany(        {
                 where: {
-                    event: {
-                        AND: [
-                            {country: location.country},
-                            {state: location.state},
-                            {city: location.city}
-                        ]
-                    }
-                },
-                orderBy
+                    AND: [
+                        {
+                            createdAt: {
+                                gte: new Date(parseInt(epochTime.beginning))
+                            }
+                        },
+                        {
+                            createdAt: {
+                                lte: new Date(parseInt(epochTime.end))
+                            }
+                        }
+                    ]
+                }
             }) :
             await prisma.content.findMany()
         
@@ -87,19 +91,6 @@ const Query = {
                     item.description?.includes(filter.text)
                 )
                 
-            })
-        }
-
-        if(epochTime && (epochTime.length > 0)){
-            const beginning = parseInt(epochTime.beginning)
-            const end = parseInt(epochTime.end)
-
-            content = content.filter(item => {
-                const time = item.createdAt.getTime()
-                return(
-                    ((beginning) ? (time >= beginning) : true) &&
-                    ((end) ? (time <= end) : true)
-                )
             })
         }
         
