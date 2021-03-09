@@ -1,5 +1,9 @@
 import getLocFromCoords from '../utils/locationDetails'
 
+//TODO: Delete these.
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
 const Query = {
     me(_, __, {prisma, tokenData}){
         return prisma.user.findUnique({
@@ -56,7 +60,11 @@ const Query = {
             }
         })
     },
-    content: async (_, {filter, location, epochTime, mediaType}, {prisma}) => {
+    content: async (_, {filter, location, epochTime, mediaType}, {}) => {
+        const orderBy = (filter.orderBy) ? 
+        {[filter.orderBy.key]: filter.orderBy.direction} :
+        {createdAt: 'desc'}
+
         let content = (location && (location.length > 0)) ?
             await prisma.content.findMany({
                 where: {
@@ -67,7 +75,8 @@ const Query = {
                             {city: location.city}
                         ]
                     }
-                }
+                },
+                orderBy
             }) :
             await prisma.content.findMany()
         

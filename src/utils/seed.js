@@ -93,6 +93,7 @@ const seed = async () => {
                 mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
                 mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
                 title: `Test Content #${x + 1}`,
+                description: `This is a description about content #${x + 1}! Lorem ipsum, etc.`,
                 author: {
                     connect: {
                         id: user2_id
