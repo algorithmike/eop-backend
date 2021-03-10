@@ -65,6 +65,10 @@ const Query = {
         {[filter.orderBy.key]: filter.orderBy.direction} :
         {createdAt: 'desc'}
 
+        //TODO: Do we actually need 'location' variable, when filter text is already doing the job?
+        // Delete location variable or incorporate it.
+        //TODO: Incorporate mediaType variable.
+
         let content = (epochTime.beginning && epochTime.end) ?
             await prisma.content.findMany(        {
                 where: {
@@ -73,35 +77,44 @@ const Query = {
                             createdAt: {
                                 gte: new Date(parseInt(epochTime.beginning))
                             }
-                        },
-                        {
+                        },{
                             createdAt: {
                                 lte: new Date(parseInt(epochTime.end))
                             }
+                        },
+                        {
+                            OR: [
+                                {
+                                    title: {
+                                        contains: filter.text,
+                                        mode: 'insensitive'
+                                    }
+                                },{
+                                    description: {
+                                        contains: filter.text,
+                                        mode: 'insensitive'
+                                    }
+                                },{
+                                    event: {
+                                        city: {
+                                            contains: filter.text,
+                                            mode: 'insensitive'
+                                        }
+                                    }
+                                },{
+                                    event: {
+                                        landmark: {
+                                            contains: filter.text,
+                                            mode: 'insensitive'
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
             }) :
             await prisma.content.findMany()
-        
-        if(filter && (filter.text.length > 0)){
-            content = content.filter(item => {
-                return(
-                    item.title?.includes(filter.text) ||
-                    item.description?.includes(filter.text)
-                )
-                
-            })
-        }
-        
-        //TODO: Implement enums for mediaType in schema.js
-        if(mediaType && (mediaType == 'image' || mediaType == 'video')){
-            content = content.filter(item => {
-                return(
-                    item.mediaType === mediaType
-                )
-            })
-        }
 
         return content;
     },
