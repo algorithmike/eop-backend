@@ -61,10 +61,6 @@ const Query = {
         })
     },
     content: async (_, {filter, location, epochTime, mediaType}, {}) => {
-        const orderBy = (filter.orderBy) ? 
-        {[filter.orderBy.key]: filter.orderBy.direction} :
-        {createdAt: 'desc'}
-
         //TODO: Do we actually need 'location' variable, when filter text is already doing the job?
         // Delete location variable or incorporate it.
         //TODO: Incorporate mediaType variable.

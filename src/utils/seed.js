@@ -110,7 +110,7 @@ const seed = async () => {
 
     await prisma.content.create({
         data: {
-            mediaType: 'image',
+            mediaType: 'video',
             mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
             mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
             title: 'Test Content Two',
@@ -129,9 +129,9 @@ const seed = async () => {
 
     await prisma.content.create({
         data: {
-            mediaType: 'image',
-            mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
-            mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
             title: 'Test Content Three',
             author: {
                 connect: {

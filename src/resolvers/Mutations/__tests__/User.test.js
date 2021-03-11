@@ -23,23 +23,23 @@ afterAll( async () => {
 })
 
 describe('Users', () => {
-    test('Query all users, receive all user data.', async () => {
-        const queryUsers = gql`
-            query {
-                content {
-                    id
-                    title
-                    mediaType
-                    mediaUrl
-                    mediaPreviewUrl
-                    description
-                }
-            }
-        `
-        const result = await client.query({
-            query: queryUsers
-        })
-    })
+    // test('Query all users, receive all user data.', async () => {
+    //     const queryUsers = gql`
+    //         query {
+    //             content {
+    //                 id
+    //                 title
+    //                 mediaType
+    //                 mediaUrl
+    //                 mediaPreviewUrl
+    //                 description
+    //             }
+    //         }
+    //     `
+    //     const result = await client.query({
+    //         query: queryUsers
+    //     })
+    // })
 
     test('Query one user, receive user data.', async () => {
         const {id} = await prisma.user.findUnique({
