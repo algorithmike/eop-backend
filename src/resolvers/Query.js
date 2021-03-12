@@ -1,9 +1,5 @@
 import getLocFromCoords from '../utils/locationDetails'
 
-//TODO: Delete these.
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
 const Query = {
     me(_, __, {prisma, tokenData}){
         return prisma.user.findUnique({
@@ -60,7 +56,7 @@ const Query = {
             }
         })
     },
-    content: async (_, {filter, location, epochTime, mediaType}, {}) => {
+    content: async (_, {filter, location, epochTime, mediaType}, {prisma}) => {
         //TODO: Do we actually need 'location' variable, when filter text is already doing the job?
         // Delete location variable or incorporate it.
         //TODO: Incorporate mediaType variable.
@@ -155,7 +151,7 @@ const Query = {
         }
         return prisma.event.findMany()
     },
-    // To be used in Mobile for dropdown event selector in CreateContent screen.
+    //TODO: Delete or use this:
     eventsInProximity: async (_, {coordinates}, {prisma}) => {
         let [, latitude, , longitude] = coordinates.split(' ')
             .map(item => item.trim().replace(/,/g, ''))
