@@ -1,5 +1,9 @@
 import path from 'path'
 import { nanoid } from 'nanoid'
+
+import getLocFromCoords from '../../utils/locationDetails'
+
+
 const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, space} ) => {
     console.log('createContent CHECKPOINT!')
     if(!tokenData){
