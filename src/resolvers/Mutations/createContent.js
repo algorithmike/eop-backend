@@ -5,7 +5,6 @@ import getLocFromCoords from '../../utils/locationDetails'
 
 
 const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, space} ) => {
-    console.log('createContent CHECKPOINT!')
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }
@@ -28,7 +27,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     // Create automatic values of event location based on coordinates.
     let [, latitude, , longitude] = coordinates.split(' ')
         .map(item => item.trim().replace(/,/g, ''))
-        
+    
     const location = await getLocFromCoords(latitude, longitude)
 
     if(mediaType === 'image'){

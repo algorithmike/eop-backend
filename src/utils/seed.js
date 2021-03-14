@@ -131,8 +131,48 @@ const seed = async () => {
     await prisma.content.create({
         data: {
             mediaType: 'video',
-            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
-            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
+            title: 'Test Content Three',
+            description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user1_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
+            title: 'Test Content Three',
+            description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user1_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
             title: 'Test Content Three',
             description: ' This is another demo video!',
             author: {
