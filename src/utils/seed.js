@@ -9,6 +9,17 @@ const seed = async () => {
     await prisma.event.deleteMany()
     await prisma.user.deleteMany()
 
+    await prisma.user.create({
+        data: {
+            email: 'test@test.com',
+            username: 'test',
+            password: await hashPassword('testPassword123'),
+            realname: 'test',
+            description: 'This is a test.',
+            profilePicUrl: 'https://i.pinimg.com/564x/4d/f1/93/4df193b6dc700bd806fc0273506f8587.jpg'
+        }
+    })
+
     // Seed users.
     const {id: user1_id} = await prisma.user.create({
         data: {
@@ -113,7 +124,7 @@ const seed = async () => {
             mediaType: 'video',
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
-            title: 'Test Content Two',
+            title: 'Test Content One',
             description: ' This is demo video content!',
             author: {
                 connect: {
@@ -133,7 +144,7 @@ const seed = async () => {
             mediaType: 'video',
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
-            title: 'Test Content Three',
+            title: 'Test Content Two',
             description: ' This is another demo video!',
             author: {
                 connect: {
@@ -173,7 +184,7 @@ const seed = async () => {
             mediaType: 'video',
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
-            title: 'Test Content Three',
+            title: 'Test Content Four',
             description: ' This is another demo video!',
             author: {
                 connect: {

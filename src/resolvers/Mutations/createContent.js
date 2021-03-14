@@ -71,6 +71,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
         space.upload({
             Body: createReadStream(filename),
             Bucket: properBucket,
+            ContentType: mimetype,
             Key: path.basename(`${nanoid()}.${fileExt}`),
             ACL: 'public-read'
         }, (err, data) => {
