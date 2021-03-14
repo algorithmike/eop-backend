@@ -28,10 +28,8 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     let [, latitude, , longitude] = coordinates.split(' ')
         .map(item => item.trim().replace(/,/g, ''))
     
-    console.log("location: ", location);
     const location = await getLocFromCoords(latitude, longitude)
-    console.log("longitude: ", longitude);
-    console.log("latitude: ", latitude);
+    console.log("location: ", location);
 
 
     if(mediaType === 'image'){
@@ -86,7 +84,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
             }
         })
     })
-
+    console.log('Checkpoint 1');
     // Create content and connects it to existing event or creates new one.
     // If new event is created, connects event to organizer(User)
     return await prisma.content.create({
@@ -112,7 +110,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
                         country: location.country,
                         city: location.city,
                         state: location.state,
-                        landmark: location.landmark ? location.landmark : location.streetAddress,
+                        landmark: location.landmark ? location.landmark : location.city,
                         organizer: {
                             connect: {
                                 id: authorId
