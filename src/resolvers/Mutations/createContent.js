@@ -28,7 +28,11 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
     let [, latitude, , longitude] = coordinates.split(' ')
         .map(item => item.trim().replace(/,/g, ''))
     
+    console.log("location: ", location);
     const location = await getLocFromCoords(latitude, longitude)
+    console.log("longitude: ", longitude);
+    console.log("latitude: ", latitude);
+
 
     if(mediaType === 'image'){
         properBucket = process.env.SPACES_PHOTO_BUCKET
