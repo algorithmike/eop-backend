@@ -29,8 +29,6 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
         .map(item => item.trim().replace(/,/g, ''))
     
     const location = await getLocFromCoords(latitude, longitude)
-    console.log("location: ", location);
-
 
     if(mediaType === 'image'){
         properBucket = process.env.SPACES_PHOTO_BUCKET
@@ -56,7 +54,7 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
         const prismaEvent = await prisma.event.findFirst({
             where: {id: eventId}
         })
-        if(!prismaEvent && eventId === 'new'){
+        if(!prismaEvent && eventId !== 'new'){
             throw new Error('Invalid event.')
         }
     } else {
