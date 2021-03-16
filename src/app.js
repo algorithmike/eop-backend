@@ -24,8 +24,6 @@ const prisma = new PrismaClient()
 
 const app = express()
 
-// app.use(cors())
-
 // Decodes the token form the "Authorization" header of an incoming request,
 // and adds it to the "req" object as "user" property, as used in the context object.
 
