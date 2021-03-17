@@ -60,6 +60,10 @@ const Query = {
         //TODO: Do we actually need 'location' variable, when filter text is already doing the job?
         // Delete location variable or incorporate it.
         //TODO: Incorporate mediaType variable.
+        epochTime = (epochTime) ? epochTime : {
+            beginning: (new Date((new Date()).getFullYear(), 0, 1).getTime()),
+            end: new Date().getTime()
+        }
 
         let content = (epochTime.beginning && epochTime.end) ?
             await prisma.content.findMany(        {
@@ -78,25 +82,25 @@ const Query = {
                             OR: [
                                 {
                                     title: {
-                                        contains: filter.text,
+                                        contains: filter?.text || '',
                                         mode: 'insensitive'
                                     }
                                 },{
                                     description: {
-                                        contains: filter.text,
+                                        contains: filter?.text || '',
                                         mode: 'insensitive'
                                     }
                                 },{
                                     event: {
                                         city: {
-                                            contains: filter.text,
+                                            contains: filter?.text || '',
                                             mode: 'insensitive'
                                         }
                                     }
                                 },{
                                     event: {
                                         landmark: {
-                                            contains: filter.text,
+                                            contains: filter?.text || '',
                                             mode: 'insensitive'
                                         }
                                     }

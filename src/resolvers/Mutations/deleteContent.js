@@ -1,8 +1,6 @@
-//TODO: Delete these two lines. Use context instead.
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import path from 'path'
 
-const deleteContent = async (_, {contentId}, {tokenData}) => {
+const deleteContent = async (_, {contentId}, {tokenData, space, prisma}) => {
     if(!tokenData){
         throw new Error('Unauthorized action!')
     }
@@ -15,8 +13,6 @@ const deleteContent = async (_, {contentId}, {tokenData}) => {
             ]
         },
         include: {
-            mediaType: true,
-            mediaUrl: true,
             event: {
                 select: {content: true}
             }
@@ -28,47 +24,47 @@ const deleteContent = async (_, {contentId}, {tokenData}) => {
         return result
     })
 
-    console.log(mediaType);
-    console.log(mediaUrl);
-    //TODO: Implement delete from Spaces
-    // await new Promise((resolve) => {
-    //     space.deleteObject({
-    //       Bucket: "examplebucket", 
-    //       Key: "objectkey.jpg"
-    //     }, (err, data) => {
-    //       if (err) {
-    //         console.log('ERROR!');
-    //         throw new Error(err)
-    //       }
-    //     })
-    // })
+    const Bucket = (content.mediaType === 'image') ? 'eop-pic-bucket' : 'eop-video-bucket'
+    const Key = path.basename(content.mediaUrl)
 
-    return content;
-    //TODO: When done testing, uncomment all lines below, and delete the retun statement above this line.
-    // if(content.event.content.length > 1){
-    // // Delete the content, but don't delete the event if it has other associated content.
-    //     return prisma.content.delete({
-    //         where: { id: contentId }
-    //     })
-    // }
+    await new Promise((resolve) => {
+        space.deleteObject({
+          Bucket, 
+          Key
+        }, (err) => {
+          if (err) {
+            console.log('Item could not be deleted!');
+            throw new Error(err)
+          }else{
+              resolve()
+          }
+        })
+    })
 
-    // // Delete the content AND the event.
-    // const deletedContent = prisma.content.delete({
-    //     where: {id: contentId}
-    // })
+    if(content.event.content.length > 1){
+    // Delete the content records from db, but don't delete the event if it has other associated content.
+        return prisma.content.delete({
+            where: { id: contentId }
+        })
+    }
 
-    // const deletedEvent = prisma.event.delete({
-    //     where: {
-    //         id: content.eventId
-    //     }
-    // })
+    // Delete the content AND the event.
+    const deletedContent = prisma.content.delete({
+        where: {id: contentId}
+    })
+
+    const deletedEvent = prisma.event.delete({
+        where: {
+            id: content.eventId
+        }
+    })
     
-    // // This implementation will throw error if the return value
-    // // requires any non-scalar fields such as "author" or "event".
-    // // Possible workaround would be to eager-load the non-scalar fields,
-    // // but that's a hit on performance.
-    // const result = await prisma.$transaction([deletedContent, deletedEvent])
-    // return result[0]
+    // This implementation will throw error if the return value
+    // requires any non-scalar fields such as "author" or "event".
+    // Possible workaround would be to eager-load the non-scalar fields,
+    // but that's a hit on performance.
+    const result = await prisma.$transaction([deletedContent, deletedEvent])
+    return result[0]
 }
 
 export default deleteContent

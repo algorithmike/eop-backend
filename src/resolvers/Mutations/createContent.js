@@ -82,7 +82,6 @@ const createContent = async (_, {data, newEventData = {}}, {prisma, tokenData, s
             }
         })
     })
-    console.log('Checkpoint 1');
     // Create content and connects it to existing event or creates new one.
     // If new event is created, connects event to organizer(User)
     return await prisma.content.create({
