@@ -9,6 +9,8 @@ const seed = async () => {
     await prisma.event.deleteMany()
     await prisma.user.deleteMany()
 
+
+    // Seed users.
     await prisma.user.create({
         data: {
             email: 'test@test.com',
@@ -20,7 +22,6 @@ const seed = async () => {
         }
     })
 
-    // Seed users.
     const {id: user1_id} = await prisma.user.create({
         data: {
             email: 'user.test.one1@email.com',
@@ -97,28 +98,6 @@ const seed = async () => {
     })
 
     // Seed content.
-    for(let x = 0; x < 12; x++){
-        await prisma.content.create({
-            data: {
-                mediaType: 'image',
-                mediaUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
-                mediaPreviewUrl: 'https://avatarfiles.alphacoders.com/124/thumb-1920-124420.jpg',
-                title: `Test Content #${x + 1}`,
-                description: `This is a description about content #${x + 1}! Lorem ipsum, etc.`,
-                author: {
-                    connect: {
-                        id: user2_id
-                    }
-                },
-                event: {
-                    connect: {
-                        id: event2_id
-                    }
-                },
-            }
-        })
-    }
-
     await prisma.content.create({
         data: {
             mediaType: 'video',
@@ -162,8 +141,8 @@ const seed = async () => {
     await prisma.content.create({
         data: {
             mediaType: 'video',
-            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
-            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
             title: 'Test Content Three',
             description: ' This is another demo video!',
             author: {
@@ -179,6 +158,88 @@ const seed = async () => {
         }
     })
 
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo4.mp4',
+            title: 'Test Content Four',
+            description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user1_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo5.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo5.mp4',
+            title: 'Test Content Five',
+            description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user2_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo6.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo6.mp4',
+            title: 'Test Content Six',
+            description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user2_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    for(let x = 0; x < 7; x++){
+        await prisma.content.create({
+            data: {
+                mediaType: 'image',
+                mediaUrl: 'https://dummyimage.com/600x400/000/fff',
+                mediaPreviewUrl: 'https://dummyimage.com/600x400/000/fff',
+                title: `Test Content #${x + 1}`,
+                description: `This is a description about content #${x + 1}! Lorem ipsum, etc.`,
+                author: {
+                    connect: {
+                        id: user2_id
+                    }
+                },
+                event: {
+                    connect: {
+                        id: event2_id
+                    }
+                },
+            }
+        })
+    }
     await prisma.$disconnect()
 }
 
