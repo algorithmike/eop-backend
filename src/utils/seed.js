@@ -104,7 +104,7 @@ const seed = async () => {
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo.mp4',
             title: 'Test Content One',
-            description: ' This is demo video content!',
+            description: 'This is demo video content!',
             author: {
                 connect: {
                     id: user1_id
@@ -124,7 +124,7 @@ const seed = async () => {
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo2.mp4',
             title: 'Test Content Two',
-            description: ' This is another demo video!',
+            description: 'This is another demo video!',
             author: {
                 connect: {
                     id: user1_id
@@ -144,7 +144,7 @@ const seed = async () => {
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo3.mp4',
             title: 'Test Content Three',
-            description: ' This is another demo video!',
+            description: 'This is another demo video!',
             author: {
                 connect: {
                     id: user1_id
@@ -185,7 +185,7 @@ const seed = async () => {
             mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo5.mp4',
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo5.mp4',
             title: 'Test Content Five',
-            description: ' This is another demo video!',
+            description: 'This is another demo video!',
             author: {
                 connect: {
                     id: user2_id
@@ -206,6 +206,26 @@ const seed = async () => {
             mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo6.mp4',
             title: 'Test Content Six',
             description: ' This is another demo video!',
+            author: {
+                connect: {
+                    id: user2_id
+                }
+            },
+            event: {
+                connect: {
+                    id: event1_id
+                }
+            },
+        }
+    })
+
+    await prisma.content.create({
+        data: {
+            mediaType: 'video',
+            mediaUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo7.mp4',
+            mediaPreviewUrl: 'https://eop-video-bucket.sfo3.digitaloceanspaces.com/DummyVideo7.mp4',
+            title: 'Test Content Seven',
+            description: 'Lorem ipsum...',
             author: {
                 connect: {
                     id: user2_id
