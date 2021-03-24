@@ -8,7 +8,7 @@ const getLocFromCoords = async (latitude, longitude) => {
         `https://api.mapbox.com/geocoding/v5/mapbox.places/
         ${longitude},${latitude}.json?access_token=${process.env.MAPBOX_KEY}`
     )
-
+    
     if(data.features.length === 0){return null}
     
     let landmark = data.features[0].text
