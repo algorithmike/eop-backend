@@ -1,9 +1,11 @@
+// TODO: Remove apollo-boost library usage from back-end tests
 import "regenerator-runtime/runtime.js";
 import "cross-fetch/polyfill";
 import ApolloClient, { gql } from "apollo-boost";
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
+import deleteUser from "../Mutations/deleteUser";
 import seed from "../../utils/seed";
 
 const prisma = new PrismaClient();
@@ -11,6 +13,20 @@ const prisma = new PrismaClient();
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
 });
+
+const createUser = gql`
+  mutation {
+    createUser(
+      data: {
+        email: "test@email.com"
+        username: "Test User"
+        password: "testPassword123"
+      }
+    ) {
+      token
+    }
+  }
+`;
 
 beforeAll(async () => {
   jest.setTimeout(10000);
@@ -66,20 +82,6 @@ describe("Users", () => {
   });
 
   test("Create user, receive user data.", async () => {
-    const createUser = gql`
-      mutation {
-        createUser(
-          data: {
-            email: "test@email.com"
-            username: "Test User"
-            password: "testPassword123"
-          }
-        ) {
-          token
-        }
-      }
-    `;
-
     await client.mutate({
       mutation: createUser,
     });
@@ -104,5 +106,27 @@ describe("Users", () => {
     });
 
     jwt.verify(result.data.login.token, process.env.JWT_SECRET);
+  });
+
+  test("Delete user successful.", async () => {
+    const userToDelete = await prisma.user.create({
+      data: {
+        email: "delete@test.com",
+        username: "delete",
+        password: "testPassword123",
+        realname: "delete",
+        description: "This is a supposedly deleted user.",
+        profilePicUrl:
+          "https://i.pinimg.com/564x/4d/f1/93/4df193b6dc700bd806fc0273506f8587.jpg",
+      },
+    });
+
+    expect(userToDelete.id).toBeTruthy();
+
+    const deletedUser = await deleteUser(undefined, undefined, {
+      tokenData: userToDelete,
+      prisma,
+    });
+    expect(userToDelete).toEqual(deletedUser);
   });
 });
