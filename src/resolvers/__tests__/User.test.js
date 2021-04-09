@@ -22,6 +22,25 @@ afterAll(async () => {
 });
 
 describe("Users", () => {
+  test("Query all users, receive all user data.", async () => {
+    const queryUsers = gql`
+      query {
+        users {
+          id
+          eventsOrganized {
+            id
+          }
+          content {
+            id
+          }
+        }
+      }
+    `;
+    await client.query({
+      query: queryUsers,
+    });
+  });
+
   test("Query one user, receive user data.", async () => {
     const { id } = await prisma.user.findUnique({
       where: { username: "usertest_username1" },
