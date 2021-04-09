@@ -7,24 +7,24 @@ const client = new ApolloClient({
 });
 
 describe("Content", () => {
-  test("Query all content, receive all content data.", async () => {
-    const queryContent = gql`
+  test("Query all events, receive event data.", async () => {
+    const queryEvents = gql`
       query {
-        content {
+        events {
           id
-          title
-          mediaType
-          mediaUrl
-          mediaPreviewUrl
-          description
+          organizer {
+            id
+          }
+          content {
+            id
+          }
         }
       }
     `;
-
     const results = await client.query({
-      query: queryContent,
+      query: queryEvents,
     });
 
-    expect(results.data.content).toBeTruthy();
+    expect(results.data.events).toBeTruthy();
   });
 });
