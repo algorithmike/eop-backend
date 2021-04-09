@@ -4,7 +4,7 @@ import ApolloClient, { gql } from "apollo-boost";
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
-import seed from "../../../utils/seed";
+import seed from "../../utils/seed";
 
 const prisma = new PrismaClient();
 
