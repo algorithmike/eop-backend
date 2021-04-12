@@ -6,6 +6,10 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
 });
 
+afterAll(async () => {
+  await prisma.$disconnect();
+});
+
 describe("Content", () => {
   test("Query all events, receive event data.", async () => {
     const queryEvents = gql`
